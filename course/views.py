@@ -38,7 +38,7 @@ class CourseDetailView(DetailView):
 
     def get_enrolled_course(self, course_id, only_validate=False):
         try:
-            return self.request.user.enrolled_courses.get(id=course_id)
+            return self.request.user.enrolled_courses.get(course__id=course_id).course
         except ObjectDoesNotExist:
             if not only_validate:
                 raise Http404
@@ -65,7 +65,7 @@ class CourseDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['students'] = context['object'].students.all()
+        # context['students'] = context['object'].students.all()
         return context
 
     def get_template_names(self):
@@ -95,7 +95,6 @@ class CourseDetailView(DetailView):
 
 
 class CourseListView(ListView):
-    template_name = 'course/list.html'
 
     def get_queryset(self):
         course_type = self.kwargs.get('course_type')
@@ -116,6 +115,15 @@ class CourseListView(ListView):
         elif course_type == 'enrolled-courses':
             context['filter'] = 'Enrolled courses'
         return context
+
+    def get_template_names(self):
+        course_type = self.kwargs.get('course_type')
+        if course_type == 'all':
+            return 'course/list_all.html'
+        elif course_type == 'my-courses':
+            return 'course/list_my_courses.html'
+        elif course_type == 'enrolled-courses':
+            return 'course/list_enrolled_courses.html'
 
 
 def enrollView(request, *args, **kwargs):

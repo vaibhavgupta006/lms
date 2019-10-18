@@ -1,1 +1,26 @@
 {% extends 'course/detail_base.html' %}
+{% load static %}
+
+{% block static_course_detail %}
+    <link rel="stylesheet" href="{% static 'course/detail_enrolled_courses.css' %}">    
+{% endblock static_course_detail %}
+
+{% block body_course_detail %}
+    <div class='specilized-action'>
+        <button class='btn'>
+            <i class='material-icons'>clear</i>
+            Unenroll
+        </button>
+    </div>
+{% endblock body_course_detail %}
+
+{% block actions_course %}
+    <div class='actions'>
+        <a href="assignments" title = 'View assignments' >
+            <i class='material-icons'>
+                assignment
+            </i>
+            <p>View assignments</p>
+        </a>
+    </div>
+{% endblock actions_course %}
