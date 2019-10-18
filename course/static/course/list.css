@@ -1,0 +1,86 @@
+body .content {
+  display: -ms-grid;
+  display: grid;
+      grid-template-areas: "title" "courses";
+  -ms-grid-rows: auto auto 1fr;
+      grid-template-rows: auto auto 1fr;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 100%;
+}
+
+body .content .title {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: title;
+  padding-top: 50px;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+body .content .courses {
+  padding: 50px 0 50px 0;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: courses;
+  grid-gap: 40px 1.8vw;
+  -ms-grid-columns: (200px)[5];
+      grid-template-columns: repeat(5, 200px);
+}
+
+body .content .courses a {
+  text-decoration: none;
+}
+
+body .content .courses a .course-container {
+  width: 100%;
+  height: 250px;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  font-family: "Noto Sans JP", sans-serif;
+  cursor: pointer;
+  -webkit-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+}
+
+body .content .courses a .course-container:hover {
+  -webkit-box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+body .content .courses a .course-container .image {
+  width: 100%;
+  height: 60%;
+  overflow-x: hidden;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 5px 5px 0 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+body .content .courses a .course-container .course-name {
+  color: black;
+  font-size: 90%;
+  width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+  padding: 5% 5% 5% 6%;
+  margin: 0;
+}
+
+body .content .courses a .course-container .tutor-name {
+  font-size: 75%;
+  color: grey;
+  padding: 0 0 0 6%;
+  margin: 0;
+}
+/*# sourceMappingURL=list.css.map */

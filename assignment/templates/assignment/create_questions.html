@@ -1,0 +1,29 @@
+{% extends 'ui_components/base.html' %}
+
+{% load static %}
+
+{% block static %}
+  <script src="{% static 'assignment/add-question.js' %}" ></script>
+  <link rel="stylesheet" href="{% static 'ui_components/form_template_1.css' %}">  
+{% endblock static %}
+
+{% block body %}
+  <h1 class='title'>
+    Add questions
+  </h1>
+
+  <form method="POST">
+      {% csrf_token %}
+      {{ formset.management_form }}
+      {% for form in formset %}
+        <div class='form' style='display:flex; flex-flow:column;'>
+          {{ form }}
+        </div>
+      {% endfor %}
+      <button class='icon-button add-more' form-model='questions' >
+        <i class="material-icons" style="font-size:18px">add</i>
+        Add question
+      </button>
+      <input type="submit" />
+    </form>
+{% endblock body %}

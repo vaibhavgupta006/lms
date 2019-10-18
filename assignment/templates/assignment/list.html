@@ -1,0 +1,29 @@
+{% extends 'ui_components/base.html' %}
+{% load static %}
+
+{% block title %}
+  <title>Nebula | All assingments</title>
+{% endblock title %}
+  
+{% block static %}
+  <link rel="stylesheet" href="{% static 'assignment/list.css' %}">
+{% endblock static %}
+
+{% block body %}
+    <div class='header'>
+    <h1>All assignments</h1>
+    <a class='btn' href="create"><i class='material-icons'>add</i>Create new</a>
+    </div>
+    <div class='list'>
+      {% for assignment in object_list %}
+      <p>{{ assignment.name|capfirst }}</p>
+      <p class='description'>{{ assignment.description|capfirst }}</p>
+      <div class='action'>
+        <a href="{{assignment.id}}/submit" class='btn'>Submit</a>
+        <a class='btn'>View</a>
+      </div>
+      <div class='hr'></div>
+    {% endfor %}
+    </div>
+{% endblock body %}  
+</html>

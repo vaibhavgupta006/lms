@@ -1,0 +1,29 @@
+{% extends 'authentication/base.html' %}
+{% load static %}
+
+    {% comment %} {% block static %}
+      <link rel="stylesheet" href="{% static 'authentication/base.css' %}">
+      <script src="{% static 'authentication/base.js' %}"></script>
+    {% endblock static %} {% endcomment %}
+
+    {% block title %}
+      <title>Nebula Login</title>
+    {% endblock title %}
+    
+    {% block heading %}
+      <h1>LOG IN</h1>
+    {% endblock heading %}
+    
+    {% block navbar-items %}
+      {% include 'ui_components/signup_btn.html' %}
+    {% endblock navbar-items %}
+    
+    {% block form %}
+      {% csrf_token %}
+      {{form.non_field_errors}}
+      {{form.username.label_tag}}
+      {{ form.username }}
+      {{form.password.label_tag}}
+      {{ form.password }}
+      <input type="submit" value='LOG IN' />
+    {% endblock form %}  

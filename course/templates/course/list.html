@@ -1,0 +1,26 @@
+{% extends 'ui_components/base.html' %}
+{% load static %}
+
+{% block static %}
+  <link rel="stylesheet" href="{% static 'course/list.css' %}">
+{% endblock static %}
+
+{% block navbar-items %}
+  <a href="" class='btn btn-navbar navbar-item'>Log out</a>
+{% endblock navbar-items %}
+
+{% block body %}
+  <div class='title'>
+    <h1>{{ filter|capfirst }}</h1>
+  </div>
+  <div class='courses'>
+    {% for course in object_list %}
+    <a href={{course.id}}>
+      <div class='course-container'>
+      <div class='image' style="background-image:url({{ course.image.url }})"></div>
+      <div class='course-name'> {{ course.name|capfirst }} </div>
+      <div class='tutor-name'> by: {{ course.tutor.first_name|capfirst }} </div>
+    </div>
+    </a>
+  {% endfor %}
+{% endblock body %}

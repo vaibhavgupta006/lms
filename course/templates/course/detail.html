@@ -1,0 +1,18 @@
+{% extends 'ui_components/base.html' %}
+
+{% block title %}
+  <title>Nebula | {{ object.name }}</title>
+{% endblock title %}
+
+
+{% block body %}
+  <h1>{{ object.name }}</h1>
+  <h1>created by {{ object.tutor.username }}</h1>
+  <h1>students</h1>
+  {% for student in students %}
+    <h1>{{ student.first_name }}</h1>
+  {% endfor %}
+  {% if is_tutor %}
+    <h2>create assignment</h2>
+  {% endif %}
+{% endblock body %}

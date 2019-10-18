@@ -1,0 +1,214 @@
+body .content {
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 4px 15px rgba(110, 110, 110, 0.2);
+          box-shadow: 0 4px 15px rgba(110, 110, 110, 0.2);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+
+body .content h1 {
+  margin: 0;
+  padding: 30px;
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+body .content form {
+  padding-top: 10px;
+  font-family: "Noto Sans JP", sans-serif;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  margin: 0 30px 0 30px;
+}
+
+body .content form .errorlist {
+  font-family: "Noto Sans JP", sans-serif;
+  border: 1px solid #ec6e6e;
+  border-radius: 5px;
+  background-color: #e08181;
+  list-style: none;
+  padding: 7px 20px 7px 20px;
+  margin: 10px 0 10px 0;
+}
+
+body .content form .errorlist li {
+  text-align: left;
+  font-size: 14px;
+  color: black;
+}
+
+body .content form .text {
+  font-weight: 500;
+  padding: 0 10px 0 0;
+}
+
+body .content form .hr {
+  border: 0.5px inset #b1b1b1;
+  clear: both;
+  display: block;
+  width: 100%;
+  background-color: #adadad;
+  height: 0px;
+  margin: 40px 0 0 0;
+}
+
+body .content form label {
+  pointer-events: none;
+  font-size: 15px;
+  margin: 10px 0px 10px 0px;
+}
+
+body .content form label.file {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  font-size: 13px;
+  pointer-events: all;
+  border: none;
+  background-color: #f3f4f5;
+  border-radius: 5px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+body .content form label.file p {
+  margin: 0 10px 0 0;
+  padding: 10px 25px 10px 25px;
+  background-color: #dbdbdb;
+  border-radius: 5px 0 0 5px;
+  font-size: 15px;
+}
+
+body .content form .errorlist {
+  margin: 10px 0px 10px 0px;
+}
+
+body .content form input {
+  margin: 10px 0 10px 0;
+  height: 6.5vh;
+  border: 1px solid #b4b4b4;
+  background-color: #f3f4f5;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  padding: 0 10px 0 10px;
+  font-size: 16px;
+  -webkit-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+body .content form input:focus {
+  border-width: 2px;
+  border-color: #4229b3;
+}
+
+body .content form input[type="submit"] {
+  margin-top: 50px;
+  font-family: "Noto Sans JP", sans-serif;
+  margin-bottom: 40px;
+  margin-top: 100px;
+  background-color: #4c2fc9;
+  color: white;
+  font-weight: 500;
+  font-size: 15px;
+  border: 2px solid #4229b3;
+  -webkit-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+  -webkit-box-shadow: 0 4px 10px rgba(110, 110, 110, 0.4);
+          box-shadow: 0 4px 10px rgba(110, 110, 110, 0.4);
+  cursor: pointer;
+}
+
+body .content form input[type="submit"]:hover {
+  -webkit-box-shadow: 0 6px 15px rgba(110, 110, 110, 0.5);
+          box-shadow: 0 6px 15px rgba(110, 110, 110, 0.5);
+}
+
+body .content form input[type="file"] {
+  display: none;
+}
+
+body .content form input[type="date"]::-webkit-inner-spin-button,
+body .content form input[type="date"] ::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+body .content form textarea {
+  margin: 10px 0 10px 0;
+  border: none;
+  background-color: #f3f4f5;
+  border-radius: 5px;
+  outline: none;
+  padding: 10px;
+  font-size: 17px;
+  font-weight: 500;
+  resize: none;
+  -webkit-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+}
+
+body .content form textarea:focus {
+  border-width: 2px;
+  border-color: #4229b3;
+}
+
+body .content form button {
+  border: 1px dashed grey;
+  height: 6.5vh;
+  margin: 10px 0 0 0;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 500;
+  background: transparent;
+  -webkit-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+  color: #535353;
+}
+
+body .content form button:focus {
+  outline: none;
+}
+
+body .content form button:hover {
+  border-color: blue;
+  color: blue;
+}
+
+body .content form button.icon-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+body .content form button.icon-button i {
+  padding: 0 5px 0 5px;
+}
+/*# sourceMappingURL=form_template_1.css.map */

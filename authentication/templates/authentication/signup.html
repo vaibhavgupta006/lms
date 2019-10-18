@@ -1,0 +1,35 @@
+{% extends 'authentication/base.html' %}
+{% load static %}
+
+    {% block title %}
+      <title>Nebula Signup</title>
+    {% endblock title %}
+    
+    {% block heading %}
+      <h1>SIGN UP</h1>
+    {% endblock heading %}
+    
+    {% block navbar-items %}
+      {% include 'ui_components/login_btn.html' %}
+    {% endblock navbar-items %}
+    
+    {% block form %}
+      {% csrf_token %}
+        {{form.first_name.label_tag}}
+        {{form.first_name.errors}}
+        {{form.first_name}}
+        {{form.last_name.errors}}
+        {{form.last_name.label_tag}}
+        {{ form.last_name }}
+        {{form.email.label_tag}}
+        {{form.email.errors}}
+        {{ form.email }}
+        {{form.password1.label_tag}}
+        {{form.password1.errors}}
+        {{ form.password1 }}
+        {{form.password2.label_tag}}
+        {{form.password2.errors}}
+        {{ form.password2 }}
+      
+      <input type="submit" value='SIGN UP' />
+    {% endblock form %}  

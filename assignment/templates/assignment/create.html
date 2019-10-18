@@ -1,0 +1,29 @@
+{% extends 'ui_components/base.html' %}
+{% load static %}
+
+{% block title %}
+  <title>Create assignment</title>
+{% endblock title %}
+
+{% block static %}
+  <link rel="stylesheet" href="{% static 'ui_components/form_template_1.css' %}">
+  <script src="{% static 'assignment/create.js' %}"></script>
+{% endblock static %}
+
+{% block body %}
+  <h1>Create assignment</h1>
+  <form method='POST'>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {{ form.name.label_tag }}
+    {{ form.name.errors }}
+    {{ form.name }}
+    {{ form.description.label_tag }}
+    {{ form.description.errors }}
+    {{ form.description }}
+    {{ form.deadline.label_tag }}
+    {{ form.deadline.errors }}
+    {{ form.deadline }}
+    <input type="submit" value="Create">
+  </form>
+{% endblock body%}

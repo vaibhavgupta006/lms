@@ -1,0 +1,18 @@
+{% extends 'ui_components/base.html' %}
+{% load static %}
+
+{% block static %}
+  <link rel="stylesheet" href="{% static 'ui_components/form_template_1.css' %}">
+{% endblock static %}
+
+{% block body %}
+    
+  {% block heading %}
+  {% endblock heading %}
+  
+  <form method="POST" class='form'>
+    {% block form %}
+    {% endblock form %}
+  </form>
+    
+{% endblock body %}

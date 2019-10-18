@@ -1,0 +1,155 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #fafbfc;
+  display: -ms-grid;
+  display: grid;
+      grid-template-areas: "navbar" "content";
+  -ms-grid-rows: 8.5vh 1fr;
+      grid-template-rows: 8.5vh 1fr;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  height: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column wrap;
+          flex-flow: column wrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+body .navbar {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: navbar;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+body .navbar a {
+  text-decoration: none;
+  color: black;
+}
+
+body .navbar .logo {
+  font-size: 3.4vh;
+  font-weight: bold;
+  margin: 0 0 0 2.5vw;
+  color: #4c2fc9;
+}
+
+body .navbar .navbar-items {
+  font-size: 1.9vh;
+  margin: 0 2.5vw 0 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  height: 100%;
+}
+
+body .navbar .navbar-items .navbar-item {
+  margin: 0 20px 0 20px;
+}
+
+body .navbar .navbar-items .btn-navbar {
+  font-family: "Noto Sans JP", sans-serif;
+  background-color: #4c2fc9;
+  padding: 1.2vh 3.5vh 1.2vh 3.5vh;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  height: 40%;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  font-weight: 700;
+  font-size: 1.9vh;
+  -webkit-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+}
+
+body .navbar .navbar-items .dropdown {
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+body .navbar .navbar-items .dropdown .dropdown-btn {
+  border: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0);
+  cursor: pointer;
+}
+
+body .navbar .navbar-items .dropdown .dropdown-content {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: auto;
+  position: absolute;
+  bottom: auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  background-color: white;
+  -webkit-box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+  display: none;
+}
+
+body .navbar .navbar-items .dropdown .dropdown-content a {
+  padding: 10px 20px 10px 20px;
+}
+
+body .content {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: content;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+/*# sourceMappingURL=base.css.map */

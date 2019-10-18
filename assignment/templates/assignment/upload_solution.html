@@ -1,0 +1,30 @@
+{% extends 'ui_components/base.html' %}
+
+{% load static %}
+
+{% block static %}
+  <link rel="stylesheet" href="{% static 'ui_components/form_template_1.css' %}">
+{% endblock static %}
+
+{% block title %}
+  <title>Nebula | Submit assignment</title>
+{% endblock title %}
+
+
+{% block body %}
+  <h1>Submit assignment</h1>
+  <form method='POST' enctype='multipart/form-data'>
+    {% csrf_token %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+    {{ form.non_field_errors }}
+    <p class='text'><p style='color:blue;'> Question:</p>{{ form.question.question }}</p>
+    {{form.solution.label_tag}}
+    {{ form.solution.errors }}
+    <label class='file' for="{{ form.solution.id_for_label }}"> <p>Choose file</p>{{ form.instance.solution }}</label>
+    {{ form.solution }}
+    <div class='hr' ></div>
+  {% endfor %}
+    <input type="submit" value='Submit'>
+  </form>
+{% endblock body %}

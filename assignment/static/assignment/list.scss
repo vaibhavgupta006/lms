@@ -1,0 +1,102 @@
+.content {
+  background-color: white;
+  box-shadow: 0 4px 15px rgba(110, 110, 110, 0.2);
+  font-family: "Noto Sans JP", sans-serif;
+  padding-bottom: 50px;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  .header {
+    padding: 30px;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 30px;
+    }
+    a {
+      text-decoration: none;
+    }
+    .btn {
+      i {
+        font-size: 15px;
+        padding: 5px 5px 5px 0;
+      }
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      border-radius: 5px;
+      background-color: rgb(97, 190, 97);
+      color: rgb(255, 255, 255);
+      height: 40px;
+      width: 130px;
+      margin: 10px;
+      font-family: "Noto Sans JP", sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 250ms ease-in-out;
+      &:hover {
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+  .list {
+    margin: 40px 40px 0 40px;
+    display: flex;
+    justify-content: stretch;
+    flex-flow: column;
+    .description {
+      margin: 10px;
+      font-size: 13px;
+      color: grey;
+    }
+    a {
+      text-decoration: none;
+    }
+    p {
+      margin: 10px;
+      width: 100%;
+    }
+    .action {
+      display: flex;
+      flex-flow: row-reverse;
+      .btn {
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: 5px;
+        background-color: #4c2fc9;
+        color: white;
+        height: 35px;
+        width: 80px;
+        margin: 10px;
+        font-family: "Noto Sans JP", sans-serif;
+        font-weight: 500;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 250ms ease-in-out;
+        &:hover {
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+      }
+    }
+    .hr {
+      border: 0.5px inset rgb(177, 177, 177);
+      clear: both;
+      display: block;
+      width: 100%;
+      background-color: rgb(173, 173, 173);
+      height: 0px;
+      margin: 0;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  }
+}

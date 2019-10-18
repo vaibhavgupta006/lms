@@ -1,0 +1,29 @@
+{% extends 'ui_components/base.html' %}
+{% load static %}
+
+{% block title %}
+  <title>Create course</title>
+{% endblock title %}
+
+{% block static %}
+  <link rel='stylesheet' href="{% static 'ui_components/form_template_1.css' %}" >
+{% endblock static %}
+
+{% block body %}
+  <h1>Create course</h1>
+  <form method='POST' enctype='multipart/form-data' >
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {{ form.name.label_tag }}
+    {{ form.name.errors }}
+    {{ form.name }}
+    {{ form.description.label_tag }}
+    {{ form.description.errors }}
+    {{ form.description }}
+    {{ form.image.label_tag }}
+    {{ form.image.errors }}
+    <label for="id_image" class='file'><p>Choose image</p></label>
+    {{ form.image }}
+    <input type="submit" value="Create">
+  </form>
+{% endblock body %}

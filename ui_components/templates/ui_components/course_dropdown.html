@@ -1,0 +1,9 @@
+<div class='navbar-item dropdown'>
+    <button class='dropdown-btn' >Courses</button>
+    <div class='dropdown-content'>
+        <a href="{% url 'course:list' course_type='all' %}">All courses</a>
+        <a href="{% url 'course:list' course_type='my-courses' %}">My courses</a>
+        <a href="{% url 'course:list' course_type='enrolled-courses' %}">Enrolled courses</a>
+        <a href="{% url 'course:create' %}">Create Course</a>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+{% extends 'ui_components/base.html' %}
+
+
+{% block title %}
+  <title>Nebula | assignment | {{object.name}}</title>
+{% endblock title %}
+
+{% block body %}
+  <h1>{{ object.name }}</h1>
+  <h1>of course {{ object.course.name }}</h1>
+  {% for question in questions %}
+    <h1>question:- {{ question.question }}</h1>
+  {% endfor %}
+{% endblock body %}
