@@ -1,0 +1,38 @@
+{% extends 'course/detail_base.html' %}
+{% load static %}
+
+{% block static_course_detail %}
+    <link rel="stylesheet" href="{% static 'course/detail_my_courses.css' %}">    
+{% endblock static_course_detail %}
+
+{% block body_course_detail %}
+    <div class='specilized-action'>
+        <button id='delete' class='btn'>
+            <i class='material-icons'>delete</i>
+            Delete
+        </button>
+    </div>
+{% endblock body_course_detail %}
+
+{% block actions_course %}
+    <div class='actions'>
+        <a href="assignments" title = 'View assignments' >
+            <i class='material-icons'>
+                assignment
+            </i>
+            <p>View assignments</p>
+        </a>
+        <a href="assignments/create" title = 'Create assignments'>
+            <i class='material-icons'>
+                playlist_add
+            </i>
+            <p>Create assignments</p>
+        </a>
+        <a href="#" title = 'Edit course'>
+            <i class='material-icons'>
+                edit
+            </i>
+            <p>Edit course</p>
+        </a>
+    </div>
+{% endblock actions_course %}

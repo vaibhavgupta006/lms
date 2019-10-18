@@ -1,0 +1,49 @@
+.content .specilized-action {
+  font-family: "Noto Sans JP", sans-serif;
+  margin: 40px;
+}
+
+.content .specilized-action .btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  align-items: center;
+  height: 55px;
+  width: 120px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  font-weight: 500;
+  font-size: 16px;
+  background-color: #4c2fc9;
+  cursor: pointer;
+  -webkit-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+}
+
+.content .specilized-action .btn:hover {
+  -webkit-box-shadow: 0 7px 15px rgba(110, 110, 110, 0.7);
+          box-shadow: 0 7px 15px rgba(110, 110, 110, 0.7);
+}
+
+.content .specilized-action .btn#delete {
+  background-color: #f83b3b;
+}
+
+.content .specilized-action .btn i {
+  font-size: 18px;
+  padding: 0 5px 0 0;
+}
+/*# sourceMappingURL=detail_all.css.map */

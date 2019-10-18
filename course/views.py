@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from .forms import CourseCreationForm
 from django.views.generic import (
     CreateView,
@@ -7,7 +7,7 @@ from django.views.generic import (
     UpdateView
 )
 from .models import Course
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -27,17 +27,23 @@ class CourseDetailView(DetailView):
     model = Course
     template_name = 'course/detail.html'
 
-    def get_my_course(self, course_id):
+    def get_my_course(self, course_id, only_validate=False):
         try:
             return self.request.user.hosted_courses.get(id=course_id)
         except ObjectDoesNotExist:
-            raise Http404
+            if not only_validate:
+                raise Http404
+            else:
+                return False
 
-    def get_enrolled_course(self, course_id):
+    def get_enrolled_course(self, course_id, only_validate=False):
         try:
             return self.request.user.enrolled_courses.get(id=course_id)
         except ObjectDoesNotExist:
-            raise Http404
+            if not only_validate:
+                raise Http404
+            else:
+                return False
 
     def get_course(self, course_id):
         try:
@@ -58,11 +64,34 @@ class CourseDetailView(DetailView):
         return course
 
     def get_context_data(self, **kwargs):
-        course_type = self.kwargs.get('course_type')
         context = super().get_context_data(**kwargs)
         context['students'] = context['object'].students.all()
-        context['is_tutor'] = True if course_type == 'my-courses' else False
         return context
+
+    def get_template_names(self):
+        course_type = self.kwargs.get('course_type')
+        if course_type == 'all':
+            return 'course/detail_all.html'
+        elif course_type == 'my-courses':
+            return 'course/detail_my_courses.html'
+        elif course_type == 'enrolled-courses':
+            return 'course/detail_enrolled_courses.html'
+
+    def get(self, request, *args, **kwargs):
+        course_type = self.kwargs.get('course_type')
+        course_id = self.kwargs.get('id')
+        kwargs = {
+            'course_type': course_type,
+            'id': course_id
+        }
+        if course_type == 'all' and self.get_enrolled_course(course_id, only_validate=True):
+            kwargs['course_type'] = 'enrolled-courses'
+            return HttpResponseRedirect(reverse('course:detail', kwargs=kwargs))
+        elif course_type == 'all' and self.get_my_course(course_id, only_validate=True):
+            kwargs['course_type'] = 'my-courses'
+            return HttpResponseRedirect(reverse('course:detail', kwargs=kwargs))
+        else:
+            return super().get(request, *args, **kwargs)
 
 
 class CourseListView(ListView):

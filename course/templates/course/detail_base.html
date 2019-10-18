@@ -1,0 +1,40 @@
+{% extends 'ui_components/base.html' %}
+{% load static %}
+
+{% block title %}
+  <title>Nebula | {{ object.name }}</title>
+{% endblock title %}
+
+{% block static %}
+  <link rel="stylesheet" href="{% static 'course/detail_base.css' %}">
+  {% block static_course_detail %}
+  {% endblock static_course_detail %}
+{% endblock static %}
+
+
+{% block body %}
+  <div class = 'header'>
+    <div class='course-info'>
+      <h1>{{ object.name|capfirst }}</h1>
+      <div class='tutor-info'>
+          <p>by:  {{ object.tutor.first_name|capfirst }} {{ object.tutor.last_name|capfirst }}</p>
+          <p>email:  {{ object.tutor.email }} </p>
+      </div>
+      <div class='hr upper'></div>
+      <div class='actions'>
+        {% block actions_course %}
+        {% endblock actions_course %}
+      </div>
+      <div class='hr lower'></div>
+    </div>
+    <div class='image' style="background-image:url({{ object.image.url }})"></div>
+  </div>
+  <div class='detail'>
+    <div class='description'>
+      <p class='heading' >About this course :</p>
+      <p class='description-content'>{{ object.description|capfirst }}</p>
+    </div>
+  </div>
+  {% block body_course_detail %}
+  {% endblock body_course_detail %}
+{% endblock body %}

@@ -1,0 +1,153 @@
+.content {
+  background-color: white;
+  -webkit-box-shadow: 0 4px 15px rgba(110, 110, 110, 0.2);
+          box-shadow: 0 4px 15px rgba(110, 110, 110, 0.2);
+  font-family: "Noto Sans JP", sans-serif;
+  padding-bottom: 50px;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+}
+
+.content .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: top;
+      -ms-flex-align: top;
+          align-items: top;
+  padding: 40px 40px 40px 30px;
+}
+
+.content .header .course-info h1 {
+  grid-area: heading;
+  margin: 0;
+  font-weight: 400;
+  font-size: 35px;
+}
+
+.content .header .course-info .tutor-info {
+  grid-area: tutor-info;
+  margin-top: 20px;
+  font-weight: 300;
+}
+
+.content .header .course-info .tutor-info p {
+  margin: 5px 0 5px 0;
+  font-size: 13px;
+}
+
+.content .header .course-info .hr {
+  width: 100%;
+  height: 0;
+  border: 0.5px inset #adadad;
+}
+
+.content .header .course-info .hr.upper {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.content .header .course-info .hr.lower {
+  margin-top: 10px;
+}
+
+.content .header .course-info .actions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  border-radius: 5px;
+  width: 100%;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+.content .header .course-info .actions a {
+  width: 40%;
+  text-decoration: none;
+  margin: 0 5px 0 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px;
+  color: black;
+}
+
+.content .header .course-info .actions a p {
+  margin-left: 15px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.content .header .course-info .actions a i {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 5px;
+  border-radius: 50%;
+  color: white;
+  background-color: #4c2fc9;
+  -webkit-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+}
+
+.content .header .image {
+  grid-area: image;
+  height: 200px;
+  width: 200px;
+  right: 120;
+  margin-right: 10%;
+  background-color: red;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.content .detail {
+  margin: 20px 40px 20px 40px;
+  font-weight: 300;
+  font-size: 13px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.content .detail .description .heading {
+  margin-top: 0;
+  font-weight: 300;
+  font-size: 30px;
+  color: #464646;
+}
+
+.content .detail .description .description-content {
+  color: #464646;
+  font-size: 18px;
+  margin-left: 10px;
+}
+/*# sourceMappingURL=detail_base.css.map */
