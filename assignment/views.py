@@ -139,7 +139,13 @@ class AssignmentListView(ListView):
         if course_type == 'my-courses':
             return self.request.user.hosted_courses.get(id=courseId).assignments.all()
         elif course_type == 'enrolled-courses':
-            return self.request.user.enrolled_courses.get(id=courseId).assignments.all()
+            return self.request.user.enrolled_courses.get(course__id=courseId).course.assignments.all()
+
+    def get_context_data(self, **kwargs):
+        course_type = self.kwargs.get('course_type')
+        context = super().get_context_data(**kwargs)
+        context['is_tutor'] = True if course_type == 'my-courses' else False
+        return context
 
 
 class SubmitView(FormView):
@@ -148,8 +154,14 @@ class SubmitView(FormView):
     def get_queryset(self):
         course_id = self.kwargs.get('course_id')
         assignment_id = self.kwargs.get('assignment_id')
+        course_type = self.kwargs.get('course_type')
         try:
-            course = self.request.user.hosted_courses.get(id=course_id)
+            if course_type == 'my-courses':
+                course = self.request.user.hosted_courses.get(id=course_id)
+            elif course_type == 'enrolled-courses':
+                course = self.request.user.enrolled_courses.get(
+                    course__id=course_id
+                ).course
             assignment = course.assignments.get(id=assignment_id)
             return assignment.questions.all()
         except ObjectDoesNotExist:

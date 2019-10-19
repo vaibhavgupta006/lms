@@ -19,9 +19,10 @@ class Assignment(models.Model):
         default='no description provided by tutor',
     )
     deadline = models.DateField(null=False, blank=False)
+    date_created = models.DateTimeField(null=False, auto_now_add=True)
 
     def get_absolute_url(self):
-        return reverse('assignment:detail', kwargs={
+        return reverse('assignment:create-question', kwargs={
             "course_id": self.course.id,
             "assignment_id": self.id,
             "course_type": "my-courses"
@@ -61,6 +62,7 @@ class Submission(models.Model):
         upload_to=get_upload_location,
         null=True
     )
+    date_created = models.DateTimeField(auto_now_add=True, null=False)
 
     def __str__(self):
         return f"solution to question {self.question.id} by {self.user.username}"

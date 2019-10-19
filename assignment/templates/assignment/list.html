@@ -12,7 +12,9 @@
 {% block body %}
     <div class='header'>
     <h1>All assignments</h1>
-    <a class='btn' href="create"><i class='material-icons'>add</i>Create new</a>
+    {% if is_tutor %}
+      <a class='btn' href="create"><i class='material-icons'>add</i>Create new</a>
+    {% endif %}
     </div>
     <div class='list'>
       {% for assignment in object_list %}

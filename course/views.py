@@ -65,17 +65,14 @@ class CourseDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['students'] = context['object'].students.all()
-        return context
-
-    def get_template_names(self):
         course_type = self.kwargs.get('course_type')
-        if course_type == 'all':
-            return 'course/detail_all.html'
-        elif course_type == 'my-courses':
-            return 'course/detail_my_courses.html'
+        context['is_student'] = False
+        context['is_tutor'] = False
+        if course_type == 'my-courses':
+            context['is_tutor'] = True
         elif course_type == 'enrolled-courses':
-            return 'course/detail_enrolled_courses.html'
+            context['is_student'] = True
+        return context
 
     def get(self, request, *args, **kwargs):
         course_type = self.kwargs.get('course_type')
@@ -96,6 +93,8 @@ class CourseDetailView(DetailView):
 
 class CourseListView(ListView):
 
+    template_name = 'course/list.html'
+
     def get_queryset(self):
         course_type = self.kwargs.get('course_type')
         if(course_type == 'all'):
@@ -115,15 +114,6 @@ class CourseListView(ListView):
         elif course_type == 'enrolled-courses':
             context['filter'] = 'Enrolled courses'
         return context
-
-    def get_template_names(self):
-        course_type = self.kwargs.get('course_type')
-        if course_type == 'all':
-            return 'course/list_all.html'
-        elif course_type == 'my-courses':
-            return 'course/list_my_courses.html'
-        elif course_type == 'enrolled-courses':
-            return 'course/list_enrolled_courses.html'
 
 
 def enrollView(request, *args, **kwargs):

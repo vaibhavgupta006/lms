@@ -6,7 +6,7 @@
 {% endblock title %}
 
 {% block static %}
-  <link rel="stylesheet" href="{% static 'course/detail_base.css' %}">
+  <link rel="stylesheet" href="{% static 'course/detail.css' %}">
   {% block static_course_detail %}
   {% endblock static_course_detail %}
 {% endblock static %}
@@ -22,8 +22,11 @@
       </div>
       <div class='hr upper'></div>
       <div class='actions'>
-        {% block actions_course %}
-        {% endblock actions_course %}
+        {% if is_tutor %}
+          {% include 'course/tutor_actions.html' %}
+        {% elif is_student %}
+          {% include 'course/student_actions.html' %}
+        {% endif %}
       </div>
       <div class='hr lower'></div>
     </div>
@@ -35,6 +38,11 @@
       <p class='description-content'>{{ object.description|capfirst }}</p>
     </div>
   </div>
-  {% block body_course_detail %}
-  {% endblock body_course_detail %}
+  {% if is_tutor %}
+    {% include 'course/button.html' with btn_text='Delete' btn_id="id='delete'" btn_icon='delete' %}
+  {% elif is_student %}
+    {% include 'course/button.html' with btn_text='Unenroll' btn_icon='clear' %}
+  {% else %}
+    {% include 'course/button.html' with btn_text='Enroll' btn_icon='add' %}
+  {% endif %}
 {% endblock body %}
