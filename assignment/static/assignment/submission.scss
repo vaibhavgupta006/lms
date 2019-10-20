@@ -101,9 +101,10 @@
       }
     }
     .hr {
+      align-self: center;
       border: 0.5px inset rgb(177, 177, 177);
       clear: both;
-      display: block;
+      display: just block;
       width: 100%;
       background-color: rgb(173, 173, 173);
       height: 0px;

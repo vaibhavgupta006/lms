@@ -11,37 +11,39 @@
     flex-flow: row;
     justify-content: space-between;
     align-items: center;
-    h1 {
+    .heading {
       margin: 0;
       font-weight: 400;
       font-size: 35px;
     }
-    a {
-      text-decoration: none;
-    }
-    .btn {
-      i {
-        font-size: 15px;
-        padding: 5px 5px 5px 0;
+    .actions {
+      a {
+        text-decoration: none;
       }
-      display: flex;
-      flex-flow: row;
-      justify-content: center;
-      align-items: center;
-      border: none;
-      border-radius: 5px;
-      background-color: rgb(97, 190, 97);
-      color: rgb(255, 255, 255);
-      height: 40px;
-      width: 130px;
-      margin: 10px;
-      font-family: "Noto Sans JP", sans-serif;
-      font-weight: 500;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 250ms ease-in-out;
-      &:hover {
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      .btn {
+        i {
+          font-size: 15px;
+          padding: 5px 5px 5px 0;
+        }
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: 5px;
+        background-color: rgb(97, 190, 97);
+        color: rgb(255, 255, 255);
+        height: 40px;
+        width: 130px;
+        margin: 10px;
+        font-family: "Noto Sans JP", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 250ms ease-in-out;
+        &:hover {
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
       }
     }
   }

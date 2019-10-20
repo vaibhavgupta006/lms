@@ -156,9 +156,12 @@
 }
 
 .content .list .hr {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
   border: 0.5px inset #b1b1b1;
   clear: both;
-  display: block;
+  display: just block;
   width: 100%;
   background-color: #adadad;
   height: 0px;

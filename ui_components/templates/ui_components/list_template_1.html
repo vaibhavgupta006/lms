@@ -1,22 +1,19 @@
 {% extends 'ui_components/base.html' %}
 {% load static %}
 
-{% block title %}
-  All assignments
-{% endblock title %}
-  
 {% block static %}
-  <link rel="stylesheet" href="{% static 'assignment/list.css' %}">
+    <link rel="stylesheet" href="{% static 'ui_components/list_template.css' %}">
 {% endblock static %}
 
 {% block body %}
     <div class='header'>
-      <h1 class='heading'>All assignments</h1>
-      <div class='actions'>
-        {% if is_tutor %}
-          <a class='btn' href="create"><i class='material-icons'>add</i>Create new</a>
-        {% endif %}
-      </div>
+        <h1 class='heading'>
+            {% block heading %}
+            {% endblock heading %}
+        </h1>
+    {% if is_tutor %}
+      <a class='btn' href="create"><i class='material-icons'>add</i>Create new</a>
+    {% endif %}
     </div>
     <div class='list'>
       {% for assignment in object_list %}
@@ -30,4 +27,3 @@
     {% endfor %}
     </div>
 {% endblock body %}  
-</html>

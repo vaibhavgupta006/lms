@@ -32,7 +32,7 @@
       <p class='detail-content'>{{ object.description|capfirst }}</p>
   </div>
   {% if is_tutor %}
-    {% include 'ui_components/detail_btn_primary.html' with btn_text='Delete' btn_id=='delete' btn_icon='delete' %}
+    {% include 'ui_components/detail_btn_primary.html' with btn_text='Delete' btn_id="id='delete'" btn_icon='delete' %}
   {% elif is_student %}
     {% include 'ui_components/detail_btn_primary.html' with btn_text='Unenroll' btn_icon='clear' %}
   {% else %}

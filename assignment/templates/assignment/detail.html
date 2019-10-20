@@ -10,7 +10,11 @@
 {% endblock heading %}
 
 {% block sub-info %}
-  <p>Deadline:  {{ object.deadline }}</p>
+  {% if deadline_expired %}
+    <p style='color:red;'>Deadline:  {{ object.deadline }}</p>
+  {% else %}
+    <p>Deadline:  {{ object.deadline }}</p>
+  {% endif %}
   <p>Created on:  {{ object.date_created.date }} </p>
   <p>Questions: {{ question_count }}</p>
 {% endblock sub-info %}
@@ -28,7 +32,11 @@
     <p class='detail-heading' >About this assignment :</p>
     <p class='detail-content'>{{ object.description|capfirst }}</p>
   </div>
-  {% include 'ui_components/detail_btn_primary.html' with btn_text='Submit' btn_icon='send' btn_onclick='location.href="submit"' %}
+  {% if deadline_expired %}
+    {% include 'ui_components/detail_btn_primary.html' with btn_text='Submit' btn_class='dead' btn_icon='send' %}
+  {% else %}
+    {% include 'ui_components/detail_btn_primary.html' with btn_text='Submit' btn_icon='send' btn_onclick='location.href="submit"' %}
+  {% endif %}
   <div class='detail secondary'>
       <p class='detail-heading'>Questions:</p>
       {% for question in questions %}

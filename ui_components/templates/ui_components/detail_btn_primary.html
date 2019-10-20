@@ -1,4 +1,4 @@
-<button onclick={{ btn_onclick }} class='btn btn-primary' id={{ btn_id }}>
+<button onclick={{ btn_onclick|default:"window.location.href=''" }} class='btn btn-primary {{ btn_class }}' {{btn_id}} >
     <i class='material-icons'>
         {{ btn_icon }}
     </i>

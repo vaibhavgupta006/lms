@@ -6,6 +6,7 @@ from .forms import AssignmentCreationForm, QuestionCreationForm, UploadSolutionF
 from .models import Assignment, Question, Submission
 from django.urls import reverse, reverse_lazy
 from django.forms import inlineformset_factory, formset_factory
+from datetime import datetime
 
 
 # Create your views here.
@@ -78,6 +79,8 @@ class AssignmentDetailView(DetailView):
             context['is_tutor'] = True
         elif course_type == 'enrolled-courses':
             context["is_student"] = True
+        context['deadline_expired'] = True if datetime.now(
+        ).date() > context['object'].deadline else False
         return context
 
 
@@ -164,11 +167,13 @@ class SubmissionView(ListView):
         # user_count = queryset.count()//question_count
         new_queryset = []
         group = []
+        prev_user = queryset[0].user
         for index, submission in enumerate(queryset):
-            group.append(submission)
-            if (index+1) % question_count == 0:
+            if submission.user != prev_user:
                 new_queryset.append(group)
                 group = []
+            group.append(submission)
+        new_queryset.append(group)
         return new_queryset
 
     def get_queryset(self, *args, **kwargs):
@@ -194,6 +199,16 @@ class SubmissionView(ListView):
 
 class SubmitView(FormView):
     template_name = 'assignment/upload_solution.html'
+
+    def get(self, request, *args, **kwargs):
+        assignment_id = self.kwargs.get('assignment_id')
+        assignment = Assignment.objects.get(id=assignment_id)
+        if datetime.now().date() > assignment.deadline:
+            return HttpResponseRedirect(
+                reverse('assignment:detail', kwargs=self.kwargs)
+            )
+        else:
+            return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         course_id = self.kwargs.get('course_id')

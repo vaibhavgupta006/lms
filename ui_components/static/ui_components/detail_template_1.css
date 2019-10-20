@@ -24,6 +24,10 @@
   padding: 40px 40px 40px 30px;
 }
 
+.content .header .info {
+  width: 60%;
+}
+
 .content .header .info .heading {
   grid-area: heading;
   margin: 0;
@@ -115,7 +119,6 @@
 }
 
 .content .header .image {
-  grid-area: image;
   height: 200px;
   width: 200px;
   right: 120;
@@ -151,6 +154,7 @@
   color: #464646;
   font-size: 18px;
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 .content .detail.secondary {
@@ -203,8 +207,21 @@
           box-shadow: 0 7px 15px rgba(110, 110, 110, 0.7);
 }
 
+.content .btn-primary:hover.dead {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
 .content .btn-primary#delete {
   background-color: #f83b3b;
+}
+
+.content .btn-primary.dead {
+  background-color: #868686;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  cursor: default;
+  pointer-events: none;
 }
 
 .content .btn-primary i {

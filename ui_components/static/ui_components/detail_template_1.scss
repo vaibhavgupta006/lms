@@ -11,6 +11,7 @@
     align-items: top;
     padding: 40px 40px 40px 30px;
     .info {
+      width: 60%;
       .heading {
         grid-area: heading;
         margin: 0;
@@ -73,7 +74,6 @@
       }
     }
     .image {
-      grid-area: image;
       height: 200px;
       width: 200px;
       right: 120;
@@ -102,6 +102,7 @@
       color: rgb(70, 70, 70);
       font-size: 18px;
       margin-left: 10px;
+      margin-right: 10px;
     }
     &.secondary {
       margin-left: 60px;
@@ -136,9 +137,18 @@
     transition: all 250ms ease-in-out;
     &:hover {
       box-shadow: 0 7px 15px rgba(110, 110, 110, 0.7);
+      &.dead {
+        box-shadow: none;
+      }
     }
     &#delete {
       background-color: rgb(248, 59, 59);
+    }
+    &.dead {
+      background-color: rgb(134, 134, 134);
+      box-shadow: none;
+      cursor: default;
+      pointer-events: none;
     }
     i {
       font-size: 18px;
