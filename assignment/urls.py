@@ -4,7 +4,8 @@ from .views import (
     AssignmentDetailView,
     CreateQuestionView,
     AssignmentListView,
-    SubmitView
+    SubmitView,
+    SubmissionView
 )
 
 
@@ -24,4 +25,7 @@ urlpatterns = [
 
     path('<int:course_id>/assignments/<int:assignment_id>/submit/',
          SubmitView.as_view(), name='upload-solution'),
+
+    path('<int:course_id>/assignments/<int:assignment_id>/submissions/',
+         SubmissionView.as_view(), name='submissions'),
 ]

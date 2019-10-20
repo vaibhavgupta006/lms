@@ -1,0 +1,33 @@
+{% extends 'ui_components/base.html' %}
+{% load static %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'assignment/submission.css' %}">
+{% endblock static %}
+
+{% block body %}
+    <div class='header'>
+        <h1>Submissions</h1>
+    </div>
+    <div class='list'>
+        {% for user in object_list %}
+            <p>{{ user.0.user.first_name|capfirst }} {{ user.0.user.last_name|capfirst }}</p>
+            {% for submission in user %}
+                <div class='sub-list row' >
+                    <p class='description clip'><span>Question:</span> {{ submission.question.question }}</p>
+                    {% if submission.solution.url %}
+                        <a target='_blank' class='btn' href="{{ submission.solution.url }}">View</a>
+                    {% else %}
+                        <a class='dead-link' href="">No submission</a>
+                    {% endif %}
+
+                </div>
+            <div class='hr'></div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    
+    {% comment %} {% for submission in object_list %}
+        {{submission.user.first_name}}
+    {% endfor %} {% endcomment %}
+{% endblock body %}

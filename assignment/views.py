@@ -40,7 +40,7 @@ class CreateAssignmentView(CreateView):
 
 
 class AssignmentDetailView(DetailView):
-    template_name = 'assignment/assignment.html'
+    template_name = 'assignment/detail.html'
 
     def get_my_course_assignment(self, course_id, assignment_id):
         try:
@@ -51,7 +51,8 @@ class AssignmentDetailView(DetailView):
 
     def get_enrolled_course_assignment(self, course_id, assignment_id):
         try:
-            course = self.request.user.enrolled_courses.get(id=course_id)
+            course = self.request.user.enrolled_courses.get(
+                course__id=course_id).course
             return course.assignments.get(id=assignment_id)
         except ObjectDoesNotExist:
             raise Http404
@@ -67,8 +68,16 @@ class AssignmentDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        course_type = self.kwargs.get('course_type')
         questions = context.get('object').questions.all()
         context['questions'] = questions
+        context['question_count'] = questions.count()
+        context['is_tutor'] = False
+        context['is_student'] = False
+        if course_type == 'my-courses':
+            context['is_tutor'] = True
+        elif course_type == 'enrolled-courses':
+            context["is_student"] = True
         return context
 
 
@@ -137,15 +146,50 @@ class AssignmentListView(ListView):
         course_type = self.kwargs.get('course_type')
         courseId = self.kwargs.get("course_id")
         if course_type == 'my-courses':
-            return self.request.user.hosted_courses.get(id=courseId).assignments.all()
+            return self.request.user.hosted_courses.get(id=courseId).assignments.all().order_by('-date_created')
         elif course_type == 'enrolled-courses':
-            return self.request.user.enrolled_courses.get(course__id=courseId).course.assignments.all()
+            return self.request.user.enrolled_courses.get(course__id=courseId).course.assignments.all().order_by('-date_created')
 
     def get_context_data(self, **kwargs):
         course_type = self.kwargs.get('course_type')
         context = super().get_context_data(**kwargs)
         context['is_tutor'] = True if course_type == 'my-courses' else False
         return context
+
+
+class SubmissionView(ListView):
+    template_name = 'assignment/submission.html'
+
+    def group_queryset(self, queryset, question_count):
+        # user_count = queryset.count()//question_count
+        new_queryset = []
+        group = []
+        for index, submission in enumerate(queryset):
+            group.append(submission)
+            if (index+1) % question_count == 0:
+                new_queryset.append(group)
+                group = []
+        return new_queryset
+
+    def get_queryset(self, *args, **kwargs):
+        assignment_id = self.kwargs.get('assignment_id')
+        course_id = self.kwargs.get('course_id')
+        course_type = self.kwargs.get('course_type')
+
+        if course_type == 'my-courses':
+            course = self.request.user.hosted_courses.get(id=course_id)
+        elif course_type == 'enrolled-courses':
+            course = self.request.user.enrolled_courses.get(
+                course__id=course_id).course
+
+        assignment = course.assignments.get(id=assignment_id)
+        question_count = assignment.questions.count()
+        submissions = Submission.objects.filter(
+            question__assignment=assignment
+        )
+        submissions = submissions.order_by(
+            '-first_name').order_by('-last_name').order_by('-id')
+        return self.group_queryset(submissions, question_count)
 
 
 class SubmitView(FormView):
@@ -188,23 +232,14 @@ class SubmitView(FormView):
 
     def form_valid(self, forms):
         for form in forms:
-            if(form.instance.solution != None):
-                form.instance.question = form.question
-                form.instance.user = self.request.user
-                form.save()
+            form.instance.question = form.question
+            form.instance.user = self.request.user
+            form.save()
 
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        couser_type = self.kwargs.get("course_type")
-        course_id = self.kwargs.get("course_id")
-        assignment_id = self.kwargs.get("assignment_id")
-        kwargs = {
-            "course_id": course_id,
-            "course_type": couser_type,
-            'assignment_id': assignment_id
-        }
-        return reverse('assignment:upload-solution', kwargs=kwargs)
+        return reverse('assignment:detail', kwargs=self.kwargs)
 
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)

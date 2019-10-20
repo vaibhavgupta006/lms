@@ -22,7 +22,7 @@
       <p class='description'>{{ assignment.description|capfirst }}</p>
       <div class='action'>
         <a href="{{assignment.id}}/submit" class='btn'>Submit</a>
-        <a class='btn'>View</a>
+        <a href="{{assignment.id}}" class='btn'>View</a>
       </div>
       <div class='hr'></div>
     {% endfor %}

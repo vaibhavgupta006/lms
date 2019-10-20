@@ -9,56 +9,42 @@
 }
 
 .content .header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: row;
-          flex-flow: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: top;
-      -ms-flex-align: top;
-          align-items: top;
-  padding: 40px 40px 40px 30px;
+  padding: 30px;
 }
 
-.content .header .course-info h1 {
-  grid-area: heading;
+.content .header h1 {
   margin: 0;
   font-weight: 400;
   font-size: 35px;
 }
 
-.content .header .course-info .tutor-info {
+.content .header .assignment-info {
   grid-area: tutor-info;
   margin-top: 20px;
   font-weight: 300;
 }
 
-.content .header .course-info .tutor-info p {
+.content .header .assignment-info p {
   margin: 5px 0 5px 0;
   font-size: 13px;
 }
 
-.content .header .course-info .hr {
+.content .header .hr {
   width: 100%;
   height: 0;
   border: 0.5px inset #adadad;
 }
 
-.content .header .course-info .hr.upper {
+.content .header .hr.upper {
   margin-top: 30px;
   margin-bottom: 10px;
 }
 
-.content .header .course-info .hr.lower {
+.content .header .hr.lower {
   margin-top: 10px;
 }
 
-.content .header .course-info .actions {
+.content .header .actions {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -67,7 +53,7 @@
       -ms-flex-flow: row wrap;
           flex-flow: row wrap;
   border-radius: 5px;
-  width: 100%;
+  width: 80%;
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
@@ -76,7 +62,7 @@
           align-items: flex-start;
 }
 
-.content .header .course-info .actions a {
+.content .header .actions a {
   width: 40%;
   text-decoration: none;
   margin: 0 5px 0 0;
@@ -97,13 +83,13 @@
   color: black;
 }
 
-.content .header .course-info .actions a p {
+.content .header .actions a p {
   margin-left: 15px;
   font-weight: 400;
   font-size: 14px;
 }
 
-.content .header .course-info .actions a i {
+.content .header .actions a i {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -113,20 +99,6 @@
   background-color: #4c2fc9;
   -webkit-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out;
-}
-
-.content .header .image {
-  grid-area: image;
-  height: 200px;
-  width: 200px;
-  right: 120;
-  margin-right: 10%;
-  background-color: red;
-  border-radius: 50%;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 .content .detail {
@@ -139,7 +111,7 @@
 }
 
 .content .detail div {
-  margin-bottom: 50px;
+  margin: 0 0 50px 0;
 }
 
 .content .detail div .heading {
@@ -201,6 +173,6 @@
 
 .content .specilized-action .btn i {
   font-size: 18px;
-  padding: 0 5px 0 0;
+  padding: 0 0 0 5px;
 }
 /*# sourceMappingURL=detail.css.map */

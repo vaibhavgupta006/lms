@@ -10,68 +10,12 @@
 
 .content .header {
   padding: 30px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: row;
-          flex-flow: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
 }
 
 .content .header h1 {
   margin: 0;
   font-weight: 400;
   font-size: 35px;
-}
-
-.content .header a {
-  text-decoration: none;
-}
-
-.content .header .btn {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: row;
-          flex-flow: row;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  border: none;
-  border-radius: 5px;
-  background-color: #61be61;
-  color: white;
-  height: 40px;
-  width: 130px;
-  margin: 10px;
-  font-family: "Noto Sans JP", sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  cursor: pointer;
-  -webkit-transition: all 250ms ease-in-out;
-  transition: all 250ms ease-in-out;
-}
-
-.content .header .btn i {
-  font-size: 15px;
-  padding: 5px 5px 5px 0;
-}
-
-.content .header .btn:hover {
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .content .list {
@@ -88,10 +32,74 @@
           flex-flow: column;
 }
 
+.content .list .sub-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 0 10px 0 10px;
+}
+
+.content .list .sub-list .description {
+  font-size: 14px;
+}
+
+.content .list .sub-list .description.clip {
+  white-space: nowrap;
+  width: 55vw;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.content .list .sub-list a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  -webkit-box-pack: left;
+      -ms-flex-pack: left;
+          justify-content: left;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: none;
+  border-radius: 5px;
+  width: 100px;
+  margin-right: 50px;
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  -webkit-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+}
+
+.content .list .sub-list a.dead-link {
+  cursor: default;
+  color: grey;
+}
+
 .content .list .description {
   margin: 10px;
   font-size: 13px;
   color: grey;
+}
+
+.content .list .description.cilp {
+  text-overflow: clip;
+  white-space: nowrap;
 }
 
 .content .list a {
@@ -158,4 +166,4 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/*# sourceMappingURL=list.css.map */
+/*# sourceMappingURL=submission.css.map */

@@ -93,14 +93,15 @@
     font-weight: 300;
     font-size: 13px;
     align-items: center;
-    .description {
+    div {
+      margin-bottom: 50px;
       .heading {
         margin-top: 0;
         font-weight: 300;
         font-size: 30px;
         color: rgb(70, 70, 70);
       }
-      .description-content {
+      .detail-content {
         color: rgb(70, 70, 70);
         font-size: 18px;
         margin-left: 10px;

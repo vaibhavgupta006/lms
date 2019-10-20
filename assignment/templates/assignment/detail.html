@@ -1,0 +1,45 @@
+{% extends 'ui_components/base.html' %}
+{% load static %}
+
+{% block title %}
+  <title>Nebula | assignment | {{object.name}}</title>
+{% endblock title %}
+
+{% block static %}
+  <link rel="stylesheet" href="{% static 'assignment/detail.css' %}">
+{% endblock static %}
+
+{% block body %}
+  <div class='header'>
+    <h1>{{ object.name|capfirst }}</h1>
+    <div class='assignment-info'>
+      <p>Deadline:  {{ object.deadline }}</p>
+      <p>Created on:  {{ object.date_created.date }} </p>
+      <p>Questions: {{ question_count }}</p>
+    </div>
+    <div class='hr upper'></div>
+      <div class='actions'>
+        {% if is_tutor %}
+          {% include 'assignment/tutor_actions.html' %}
+        {% elif is_student %}
+          {% include 'assignment/student_actions.html' %}
+        {% endif %}
+      </div>
+    <div class='hr lower'></div>
+  </div>
+  <div class='detail'>
+    <div class='description'>
+      <p class='heading' >About this assignment :</p>
+      <p class='detail-content'>{{ object.description|capfirst }}</p>
+    </div>
+    <div class='qeustions'>
+      <p class='heading'>Questions:</p>
+      {% for question in questions %}
+        <p class='detail-content'>{{question.question|capfirst}}</p>
+        <hr style='border-width:.5px; border-color:rgb(200,200,200); margin:20px 0 20px 0;'>
+      {% endfor %}
+    </div>
+  </div>
+  {% include 'assignment/button.html' with btn_text='Submit' btn_icon='send' btn_onclick='location.href="submit"' %}
+
+{% endblock body %}
