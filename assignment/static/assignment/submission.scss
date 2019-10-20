@@ -1,116 +1,100 @@
-.content {
-  background-color: white;
-  box-shadow: 0 4px 15px rgba(110, 110, 110, 0.2);
-  font-family: "Noto Sans JP", sans-serif;
-  padding-bottom: 50px;
-  margin-top: 10vh;
-  margin-bottom: 10vh;
-  .header {
-    padding: 30px;
-    h1 {
-      margin: 0;
-      font-weight: 400;
-      font-size: 35px;
-    }
-  }
-  .list {
-    margin: 40px 40px 0 40px;
+.list-item {
+  margin: 10px 40px 0 40px;
+  display: flex;
+  justify-content: stretch;
+  flex-flow: column;
+  .sub-list {
     display: flex;
-    justify-content: stretch;
-    flex-flow: column;
-    .sub-list {
-      display: flex;
-      flex-flow: row;
-      align-items: center;
-      justify-content: space-between;
-      margin: 0 10px 0 10px;
-      .description {
-        font-size: 14px;
-        &.clip {
-          //   white-space: nowrap;
-          //   word-wrap: nowrap;
-          white-space: nowrap;
-          width: 55vw;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
-      }
-      a {
-        display: flex;
-        flex-flow: row;
-        justify-content: left;
-        align-items: center;
-        border: none;
-        border-radius: 5px;
-        // background-color: #4c2fc9;
-        // color: white;
-        // height: 30px;
-        width: 100px;
-        margin-right: 50px;
-        font-family: "Noto Sans JP", sans-serif;
-        font-weight: 500;
-        font-size: 13px;
-        cursor: pointer;
-        transition: all 250ms ease-in-out;
-        &.dead-link {
-          cursor: default;
-          color: grey;
-        }
-      }
-    }
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 10px 0 10px;
     .description {
-      margin: 10px;
-      font-size: 13px;
-      color: grey;
-      &.cilp {
-        text-overflow: clip;
-        // word-wrap: nowrap;
+      font-size: 14px;
+      &.clip {
+        //   white-space: nowrap;
+        //   word-wrap: nowrap;
         white-space: nowrap;
+        width: 55vw;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
     }
     a {
-      text-decoration: none;
-    }
-    p {
-      margin: 10px;
-      width: 100%;
-    }
-    .action {
       display: flex;
-      flex-flow: row-reverse;
-      .btn {
-        display: flex;
-        flex-flow: row;
-        justify-content: center;
-        align-items: center;
-        border: none;
-        border-radius: 5px;
-        background-color: #4c2fc9;
-        color: white;
-        height: 35px;
-        width: 80px;
-        margin: 10px;
-        font-family: "Noto Sans JP", sans-serif;
-        font-weight: 500;
-        font-size: 12px;
-        cursor: pointer;
-        transition: all 250ms ease-in-out;
-        &:hover {
-          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-        }
+      flex-flow: row;
+      justify-content: left;
+      align-items: center;
+      border: none;
+      border-radius: 5px;
+      // background-color: #4c2fc9;
+      // color: white;
+      // height: 30px;
+      width: 100px;
+      margin-right: 50px;
+      font-family: "Noto Sans JP", sans-serif;
+      font-weight: 500;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 250ms ease-in-out;
+      &.dead-link {
+        cursor: default;
+        color: grey;
       }
     }
-    .hr {
-      align-self: center;
-      border: 0.5px inset rgb(177, 177, 177);
-      clear: both;
-      display: just block;
-      width: 100%;
-      background-color: rgb(173, 173, 173);
-      height: 0px;
-      margin: 0;
-      margin-top: 10px;
-      margin-bottom: 10px;
+  }
+  .description {
+    margin: 10px;
+    font-size: 13px;
+    color: grey;
+    &.cilp {
+      text-overflow: clip;
+      // word-wrap: nowrap;
+      white-space: nowrap;
     }
+  }
+  a {
+    text-decoration: none;
+  }
+  p {
+    margin: 10px;
+    width: 100%;
+  }
+  .action {
+    display: flex;
+    flex-flow: row-reverse;
+    .btn {
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      border-radius: 5px;
+      background-color: #4c2fc9;
+      color: white;
+      height: 35px;
+      width: 80px;
+      margin: 10px;
+      font-family: "Noto Sans JP", sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 250ms ease-in-out;
+      &:hover {
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+  .hr {
+    align-self: center;
+    border: 0.5px inset rgb(177, 177, 177);
+    clear: both;
+    display: just block;
+    width: 100%;
+    background-color: rgb(173, 173, 173);
+    height: 0px;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 }

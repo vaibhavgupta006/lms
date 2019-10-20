@@ -1,33 +1,36 @@
-{% extends 'ui_components/base.html' %}
+{% extends 'ui_components/list_template_1.html' %}
 {% load static %}
 
 {% block title %}
   All assignments
 {% endblock title %}
   
-{% block static %}
+{% block list_static %}
   <link rel="stylesheet" href="{% static 'assignment/list.css' %}">
-{% endblock static %}
+{% endblock list_static %}
 
-{% block body %}
-    <div class='header'>
-      <h1 class='heading'>All assignments</h1>
-      <div class='actions'>
-        {% if is_tutor %}
-          <a class='btn' href="create"><i class='material-icons'>add</i>Create new</a>
-        {% endif %}
-      </div>
-    </div>
-    <div class='list'>
-      {% for assignment in object_list %}
-      <p>{{ assignment.name|capfirst }}</p>
+{% block heading %}
+  All assignments
+{% endblock heading %}
+
+{% block actions %}
+
+{% endblock actions %}
+  {% if is_tutor %}
+    <a class='btn' href="create"><i class='material-icons'>add</i>Create new</a>
+  {% endif %}
+
+{% block list %}        
+  {% for assignment in object_list %}
+    <div class='list_item' >
+      <p class='item-heading'>{{ assignment.name|capfirst }}</p>
       <p class='description'>{{ assignment.description|capfirst }}</p>
       <div class='action'>
         <a href="{{assignment.id}}/submit" class='btn'>Submit</a>
         <a href="{{assignment.id}}" class='btn'>View</a>
       </div>
-      <div class='hr'></div>
-    {% endfor %}
     </div>
-{% endblock body %}  
+    <hr style='border: .5px dashed rgb(200,200,200); margin:40px 0 40px 0;'>
+  {% endfor %}
+{% endblock list %}  
 </html>

@@ -167,7 +167,10 @@ class SubmissionView(ListView):
         # user_count = queryset.count()//question_count
         new_queryset = []
         group = []
-        prev_user = queryset[0].user
+        try:
+            prev_user = queryset[0].user
+        except IndexError:
+            return queryset
         for index, submission in enumerate(queryset):
             if submission.user != prev_user:
                 new_queryset.append(group)

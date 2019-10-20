@@ -147,18 +147,12 @@
   margin-top: 0;
   font-weight: 300;
   font-size: 30px;
-  color: #464646;
 }
 
 .content .detail .detail-content {
-  color: #464646;
   font-size: 18px;
   margin-left: 10px;
   margin-right: 10px;
-}
-
-.content .detail.secondary {
-  margin-left: 60px;
 }
 
 .content .detail.secondary .detail-heading {

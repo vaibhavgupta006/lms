@@ -2,7 +2,8 @@
 {% load static %}
 
 {% block static %}
-    <link rel="stylesheet" href="{% static 'ui_components/list_template.css' %}">
+    <link rel="stylesheet" href="{% static 'ui_components/list_template_1.css' %}">
+    {% block list_static %}{% endblock list_static %}
 {% endblock static %}
 
 {% block body %}
@@ -11,19 +12,12 @@
             {% block heading %}
             {% endblock heading %}
         </h1>
-    {% if is_tutor %}
-      <a class='btn' href="create"><i class='material-icons'>add</i>Create new</a>
-    {% endif %}
+        <div class='actions'>
+            {% block actions %}
+            {% endblock actions %}
+        </div>
     </div>
     <div class='list'>
-      {% for assignment in object_list %}
-      <p>{{ assignment.name|capfirst }}</p>
-      <p class='description'>{{ assignment.description|capfirst }}</p>
-      <div class='action'>
-        <a href="{{assignment.id}}/submit" class='btn'>Submit</a>
-        <a href="{{assignment.id}}" class='btn'>View</a>
-      </div>
-      <div class='hr'></div>
-    {% endfor %}
-    </div>
+    {% block list %}
+    {% endblock list %}
 {% endblock body %}  

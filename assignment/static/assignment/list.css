@@ -1,109 +1,19 @@
-.content {
-  background-color: white;
-  -webkit-box-shadow: 0 4px 15px rgba(110, 110, 110, 0.2);
-          box-shadow: 0 4px 15px rgba(110, 110, 110, 0.2);
-  font-family: "Noto Sans JP", sans-serif;
-  padding-bottom: 50px;
-  margin-top: 10vh;
-  margin-bottom: 10vh;
-}
-
-.content .header {
-  padding: 30px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: row;
-          flex-flow: row;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.content .header .heading {
-  margin: 0;
-  font-weight: 400;
-  font-size: 35px;
-}
-
-.content .header .actions a {
-  text-decoration: none;
-}
-
-.content .header .actions .btn {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: row;
-          flex-flow: row;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  border: none;
-  border-radius: 5px;
-  background-color: #61be61;
-  color: white;
-  height: 40px;
-  width: 130px;
-  margin: 10px;
-  font-family: "Noto Sans JP", sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  cursor: pointer;
-  -webkit-transition: all 250ms ease-in-out;
-  transition: all 250ms ease-in-out;
-}
-
-.content .header .actions .btn i {
-  font-size: 15px;
-  padding: 5px 5px 5px 0;
-}
-
-.content .header .actions .btn:hover {
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
-
-.content .list {
-  margin: 40px 40px 0 40px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: stretch;
-      -ms-flex-pack: stretch;
-          justify-content: stretch;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: column;
-          flex-flow: column;
-}
-
-.content .list .description {
-  margin: 10px;
-  font-size: 13px;
-  color: grey;
-}
-
-.content .list a {
-  text-decoration: none;
-}
-
-.content .list p {
+.list_item p {
   margin: 10px;
   width: 100%;
 }
 
-.content .list .action {
+.list_item p.description {
+  margin: 15px;
+  font-size: 14px;
+  color: grey;
+}
+
+.list_item a {
+  text-decoration: none;
+}
+
+.list_item .action {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -111,9 +21,10 @@
   -webkit-box-direction: reverse;
       -ms-flex-flow: row-reverse;
           flex-flow: row-reverse;
+  margin-top: 18px;
 }
 
-.content .list .action .btn {
+.list_item .action .btn {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -142,20 +53,8 @@
   transition: all 250ms ease-in-out;
 }
 
-.content .list .action .btn:hover {
+.list_item .action .btn:hover {
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
           box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
-}
-
-.content .list .hr {
-  border: 0.5px inset #b1b1b1;
-  clear: both;
-  display: block;
-  width: 100%;
-  background-color: #adadad;
-  height: 0px;
-  margin: 0;
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 /*# sourceMappingURL=list.css.map */

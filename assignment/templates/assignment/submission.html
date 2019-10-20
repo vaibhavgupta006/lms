@@ -1,17 +1,22 @@
-{% extends 'ui_components/base.html' %}
+{% extends 'ui_components/list_template_1.html' %}
 {% load static %}
 
-{% block static %}
+{% block list_static %}
     <link rel="stylesheet" href="{% static 'assignment/submission.css' %}">
-{% endblock static %}
+{% endblock list_static %}
 
-{% block body %}
-    <div class='header'>
-        <h1>Submissions</h1>
-    </div>
-    <div class='list'>
-        {% for user in object_list %}
-            <p>{{ user.0.user.first_name|capfirst }} {{ user.0.user.last_name|capfirst }}</p>
+{% block title %}
+    Assignment | Submissions
+{% endblock title %}
+
+{% block heading %}
+    Submissions
+{% endblock heading %}
+
+{% block list %}
+    {% for user in object_list %}
+        <div class='list-item'>
+            <p class='item-heading'>{{ user.0.user.first_name|capfirst }} {{ user.0.user.last_name|capfirst }}</p>
             {% for submission in user %}
                 <div class='sub-list row' >
                     <p class='description clip'><span>Question:</span> {{ submission.question.question }}</p>
@@ -20,14 +25,12 @@
                     {% else %}
                         <a class='dead-link' href="">No submission</a>
                     {% endif %}
-
                 </div>
             {% endfor %}
-            <div class='hr'></div>
-        {% endfor %}
-    </div>
+        </div>
+    <hr style='border: .5px dashed rgb(200,200,200); margin:20px 0 20px 0;'>
+    {% endfor %}
     
-    {% comment %} {% for submission in object_list %}
-        {{submission.user.first_name}}
-    {% endfor %} {% endcomment %}
-{% endblock body %}
+    
+    
+{% endblock list %}
