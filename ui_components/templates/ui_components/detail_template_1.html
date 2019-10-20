@@ -1,0 +1,34 @@
+{% extends 'ui_components/base.html' %}
+{% load static %}
+
+{% block static %}
+    <link rel="stylesheet" href="{% static 'ui_components/detail_template_1.css' %}">
+{% endblock static %}
+
+{% block body %}
+    <div class = 'header'>
+        <div class='info'>
+          <h1 class='heading'>
+            {% block heading %}
+            {% endblock heading %}
+          </h1>
+          <div class='sub-info'>
+              {% block sub-info %}
+              {% endblock sub-info %}
+          </div>
+          <div class='hr upper'></div>
+          <div class='actions'>
+            {% block actions %}
+            {% endblock actions %}
+          </div>
+          <div class='hr lower'></div>
+        </div>
+        <div class='image'>
+            {% block image %}
+            {% endblock image %}
+        </div>
+      </div>
+    {% block detail %}
+    {% endblock detail %}
+    
+{% endblock body %}

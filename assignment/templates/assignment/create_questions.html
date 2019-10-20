@@ -1,29 +1,31 @@
-{% extends 'ui_components/base.html' %}
-
+{% extends 'ui_components/form_template_1.html' %}
 {% load static %}
 
-{% block static %}
+{% comment %} {% block static %}
   <script src="{% static 'assignment/add-question.js' %}" ></script>
   <link rel="stylesheet" href="{% static 'ui_components/form_template_1.css' %}">  
-{% endblock static %}
+{% endblock static %} {% endcomment %}
 
-{% block body %}
-  <h1 class='title'>
-    Add questions
-  </h1>
+{% block title %}
+  Assignment | Add question
+{% endblock title %}
 
-  <form method="POST">
-      {% csrf_token %}
-      {{ formset.management_form }}
-      {% for form in formset %}
-        <div class='form' style='display:flex; flex-flow:column;'>
-          {{ form }}
-        </div>
-      {% endfor %}
-      <button class='icon-button add-more' form-model='questions' >
-        <i class="material-icons" style="font-size:18px">add</i>
-        Add question
-      </button>
-      <input type="submit" />
-    </form>
-{% endblock body %}
+{% block heading %}
+  Add questions
+{% endblock heading %}
+
+
+{% block form %}
+  {% csrf_token %}
+  {{ formset.management_form }}
+  {% for form in formset %}
+    <div class='form' style='display:flex; flex-flow:column;'>
+      {{ form }}
+    </div>
+  {% endfor %}
+  <button class='icon-button dynamic-formset' form-model='questions' >
+    <i class="material-icons" style="font-size:18px">add</i>
+    Add question
+  </button>
+  <input type="submit" />
+{% endblock form %}

@@ -1,17 +1,12 @@
-{% extends 'authentication/base.html' %}
+{% extends 'ui_components/form_template_1.html' %}
 {% load static %}
 
-    {% comment %} {% block static %}
-      <link rel="stylesheet" href="{% static 'authentication/base.css' %}">
-      <script src="{% static 'authentication/base.js' %}"></script>
-    {% endblock static %} {% endcomment %}
-
     {% block title %}
-      <title>Nebula Login</title>
+      Login
     {% endblock title %}
     
     {% block heading %}
-      <h1>LOG IN</h1>
+      LOG IN
     {% endblock heading %}
     
     {% block navbar-items %}
@@ -20,10 +15,6 @@
     
     {% block form %}
       {% csrf_token %}
-      {{form.non_field_errors}}
-      {{form.username.label_tag}}
-      {{ form.username }}
-      {{form.password.label_tag}}
-      {{ form.password }}
+      {{ form }}
       <input type="submit" value='LOG IN' />
     {% endblock form %}  

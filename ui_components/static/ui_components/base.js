@@ -1,11 +1,13 @@
 $(document).ready(function() {
-  dropdown = $(".dropdown");
-  textareas = $("textarea");
-  fileUpload = $("input:file");
+  let dropdown = $(".dropdown");
+  let textareas = $("textarea");
+  let fileUpload = $("input:file");
+  let formsets = $(".dynamic-formset");
 
   $.each(dropdown, showContent);
   $.each(textareas, bindAutoIncrement);
   $.each(fileUpload, bindGetFileName);
+  $.each(formsets, bindAddForm);
 });
 
 let bindAutoIncrement = function(index, textarea) {
@@ -14,6 +16,14 @@ let bindAutoIncrement = function(index, textarea) {
 
 let bindGetFileName = function(index, fileInput) {
   $(fileInput).on("change", getFileName);
+};
+
+let bindAddForm = function(index, formset) {
+  formType = $(formset).attr("form-model");
+
+  $(formset).click(function(e) {
+    addQuestion(e, formType);
+  });
 };
 
 let autoIncrementHeight = function(e) {
@@ -38,4 +48,42 @@ let getFileName = function(e) {
   id = e.target.id;
   customUploadButton = $(`.file[for="${id}"]`);
   customUploadButton.html(`<p>Choose file</p> ${filename}`);
+};
+
+let addQuestion = function(e, formType) {
+  e.preventDefault();
+  newForm = $(".form")
+    .last()
+    .clone(true);
+
+  $.each(newForm.find("label"), function(index, label) {
+    incrementAttrs(label, "for");
+  });
+
+  $.each(newForm.find("input"), function(index, input) {
+    $(input).val("");
+    incrementAttrs(input, "name");
+    incrementAttrs(input, "id");
+  });
+
+  $.each(newForm.find("textarea"), function(index, textarea) {
+    $(textarea).val("");
+    incrementAttrs(textarea, "name");
+    incrementAttrs(textarea, "id");
+  });
+
+  formCount = $(`#id_${formType}-TOTAL_FORMS`);
+  newCount = parseInt(formCount.attr("value")) + 1;
+  formCount.attr("value", newCount);
+
+  newForm.insertBefore(".dynamic-formset");
+  return false;
+};
+
+let incrementAttrs = function(element, attrName) {
+  attr = $(element).attr(attrName);
+  newAttr = attr.split("-");
+  newAttr[1] = parseInt(newAttr[1]) + 1;
+  newAttr = newAttr.join("-");
+  $(element).attr(attrName, newAttr);
 };

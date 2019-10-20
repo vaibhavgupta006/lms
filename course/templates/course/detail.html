@@ -1,48 +1,42 @@
-{% extends 'ui_components/base.html' %}
+{% extends 'ui_components/detail_template_1.html' %}
 {% load static %}
 
 {% block title %}
-  <title>Nebula | {{ object.name }}</title>
+  {{ object.name }}
 {% endblock title %}
 
-{% block static %}
-  <link rel="stylesheet" href="{% static 'course/detail.css' %}">
-  {% block static_course_detail %}
-  {% endblock static_course_detail %}
-{% endblock static %}
+{% block heading %}
+  {{ object.name|capfirst }}
+{% endblock heading %}
+  
+{% block sub-info %}
+  <p>by:  {{ object.tutor.first_name|capfirst }} {{ object.tutor.last_name|capfirst }}</p>
+  <p>email:  {{ object.tutor.email }} </p>
+  {% endblock sub-info %}
 
+{% block actions %}
+  {% if is_tutor %}
+    {% include 'course/tutor_actions.html' %}
+  {% elif is_student %}
+    {% include 'course/student_actions.html' %}
+  {% endif %}
+{% endblock actions %}
 
-{% block body %}
-  <div class = 'header'>
-    <div class='course-info'>
-      <h1>{{ object.name|capfirst }}</h1>
-      <div class='tutor-info'>
-          <p>by:  {{ object.tutor.first_name|capfirst }} {{ object.tutor.last_name|capfirst }}</p>
-          <p>email:  {{ object.tutor.email }} </p>
-      </div>
-      <div class='hr upper'></div>
-      <div class='actions'>
-        {% if is_tutor %}
-          {% include 'course/tutor_actions.html' %}
-        {% elif is_student %}
-          {% include 'course/student_actions.html' %}
-        {% endif %}
-      </div>
-      <div class='hr lower'></div>
-    </div>
-    <div class='image' style="background-image:url({{ object.image.url }})"></div>
-  </div>
-  <div class='detail'>
-    <div class='description'>
-      <p class='heading' >About this course :</p>
+{% block image %}
+  <img src="{{ object.image.url }}" >
+{% endblock image %}
+
+{% block detail %}
+  <div class='detail primary'>
+      <p class='detail-heading' >About this course :</p>
       <p class='detail-content'>{{ object.description|capfirst }}</p>
-    </div>
   </div>
   {% if is_tutor %}
-    {% include 'course/button.html' with btn_text='Delete' btn_id="id='delete'" btn_icon='delete' %}
+    {% include 'ui_components/detail_btn_primary.html' with btn_text='Delete' btn_id=='delete' btn_icon='delete' %}
   {% elif is_student %}
-    {% include 'course/button.html' with btn_text='Unenroll' btn_icon='clear' %}
+    {% include 'ui_components/detail_btn_primary.html' with btn_text='Unenroll' btn_icon='clear' %}
   {% else %}
-    {% include 'course/button.html' with btn_text='Enroll' btn_icon='add' %}
+    {% include 'ui_components/detail_btn_primary.html' with btn_text='Enroll' btn_icon='add' %}
   {% endif %}
-{% endblock body %}
+{% endblock detail %}
+  

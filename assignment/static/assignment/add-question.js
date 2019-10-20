@@ -1,6 +1,6 @@
 $(document).ready(function() {
-  formType = $(".add-more").attr("form-model");
-  $(".add-more").click(function(e) {
+  formType = $(".dynamic-formset").attr("form-model");
+  $(".dynamic-formset").click(function(e) {
     addQuestion(e, formType);
   });
 });
@@ -31,7 +31,7 @@ let addQuestion = function(e, formType) {
   newCount = parseInt(formCount.attr("value")) + 1;
   formCount.attr("value", newCount);
 
-  newForm.insertBefore(".add-more");
+  newForm.insertBefore(".dynamic-formset");
   return false;
 };
 
