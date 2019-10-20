@@ -16,7 +16,7 @@ body .content {
           align-items: stretch;
 }
 
-body .content h1 {
+body .content .header h1 {
   margin: 0;
   padding: 30px;
   font-family: "Noto Sans JP", sans-serif;

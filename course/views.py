@@ -66,6 +66,7 @@ class CourseDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         course_type = self.kwargs.get('course_type')
+        context['course_type'] = course_type
         context['is_student'] = False
         context['is_tutor'] = False
         if course_type == 'my-courses':

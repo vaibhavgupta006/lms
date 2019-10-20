@@ -6,12 +6,16 @@
 {% endblock static %}
 
 {% block body %}
-    
-  <h1>
-    {% block heading %}
-    {% endblock heading %}
-  </h1>
-  
+  <div class='header'>
+    <h1>
+      <ul class='breadcrumb'>
+        {% block breadcrumbs %}
+        {% endblock breadcrumbs %}  
+      </ul>
+      {% block heading %}
+      {% endblock heading %}
+    </h1>
+  </div>
   <form method="POST" class='form' {% block form_enctype %}{% endblock form_enctype %} >
     {% block form %}
     {% endblock form %}

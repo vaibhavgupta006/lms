@@ -14,6 +14,17 @@
   Add questions
 {% endblock heading %}
 
+{% block breadcrumbs %}
+  <li><a href="{% url 'dashboard:home' %}">Home</a></li>
+  <li>></li>
+  <li><a href="{% url 'course:list' course_type='my-courses' %}">'my-courses</a></li>
+  <li>></li><li><a href="{% url 'course:detail' course_type='my-courses' id=course_id %}">Course</a></li>
+  <li>></li>
+  <li><a href="{% url 'assignment:all' course_type='my-courses' course_id=course_id %}">All assignments</a></li>
+  <li>></li>
+  <li><a href="{% url 'assignment:detail' course_type='my-courses' assignment_id=assignment_id course_id=course_id %}">Assignment</a></li>
+  <li>></li>
+{% endblock breadcrumbs %}
 
 {% block form %}
   {% csrf_token %}

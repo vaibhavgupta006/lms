@@ -39,6 +39,11 @@ class CreateAssignmentView(CreateView):
         form.instance.course = course
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course_id'] = self.kwargs.get('course_id')
+        return context
+
 
 class AssignmentDetailView(DetailView):
     template_name = 'assignment/detail.html'
@@ -75,6 +80,8 @@ class AssignmentDetailView(DetailView):
         context['question_count'] = questions.count()
         context['is_tutor'] = False
         context['is_student'] = False
+        context['course_type'] = course_type
+        context['course_id'] = self.kwargs.get('course_id')
         if course_type == 'my-courses':
             context['is_tutor'] = True
         elif course_type == 'enrolled-courses':
@@ -87,13 +94,16 @@ class AssignmentDetailView(DetailView):
 class CreateQuestionView(FormView):
     template_name = 'assignment/create_questions.html'
 
+    def get(self, request, *args, **kwargs):
+        if self.kwargs.get('course_type') != 'my-courses':
+            raise Http404
+        else:
+            return super().get(request, *args, **kwargs)
+
     def get_instance(self, request=None):
         request = self.request if request is None else request
         courseId = self.kwargs.get('course_id')
         assignmentId = self.kwargs.get('assignment_id')
-
-        if self.kwargs.get('course_type') != 'my-courses':
-            raise Http404
 
         try:
             course = request.user.hosted_courses.get(id=courseId)
@@ -128,6 +138,8 @@ class CreateQuestionView(FormView):
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)
         kwargs['formset'] = kwargs.pop('form')
+        kwargs['course_id'] = self.kwargs.get('course_id')
+        kwargs['assignment_id'] = self.kwargs.get('assignment_id')
         return kwargs
 
     def get_success_url(self, *args, **kwargs):
@@ -157,6 +169,8 @@ class AssignmentListView(ListView):
         course_type = self.kwargs.get('course_type')
         context = super().get_context_data(**kwargs)
         context['is_tutor'] = True if course_type == 'my-courses' else False
+        context['course_type'] = course_type
+        context['course_id'] = self.kwargs.get('course_id')
         return context
 
 
@@ -198,6 +212,13 @@ class SubmissionView(ListView):
         submissions = submissions.order_by(
             '-first_name').order_by('-last_name').order_by('-id')
         return self.group_queryset(submissions, question_count)
+
+    def get_context_data(self, **kwargs):
+        kwargs = super().get_context_data(**kwargs)
+        kwargs['course_id'] = self.kwargs.get('course_id')
+        kwargs['assignment_id'] = self.kwargs.get('assignment_id')
+        kwargs['course_type'] = self.kwargs.get('course_type')
+        return kwargs
 
 
 class SubmitView(FormView):
@@ -262,4 +283,7 @@ class SubmitView(FormView):
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)
         kwargs['formset'] = kwargs.pop('form')
+        kwargs['course_type'] = self.kwargs.get('course_type')
+        kwargs['course_id'] = self.kwargs.get('course_id')
+        kwargs['assignment_id'] = self.kwargs.get('assignment_id')
         return kwargs

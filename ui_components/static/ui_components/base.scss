@@ -103,3 +103,22 @@ body {
     align-items: center;
   }
 }
+
+.breadcrumb {
+  margin-left: 0;
+  padding-left: 0;
+  display: flex;
+  flex-flow: row wrap;
+  font-size: 13px;
+  font-weight: 400;
+  list-style: none;
+  li {
+    white-space: nowrap;
+    color: #4c2fc9;
+    margin-right: 5px;
+    a {
+      text-decoration: none;
+      color: #4c2fc9;
+    }
+  }
+}

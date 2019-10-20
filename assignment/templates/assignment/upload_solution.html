@@ -9,6 +9,18 @@
   Submit assignment
 {% endblock heading %}
 
+{% block breadcrumbs %}
+  <li><a href="{% url 'dashboard:home' %}">Home</a></li>
+  <li>></li>
+  <li><a href="{% url 'course:list' course_type=course_type %}">{{course_type|capfirst}}</a></li>
+  <li>></li>
+  <li>></li><li><a href="{% url 'course:detail' course_type=course_type id=course_id %}">Course</a></li>
+  <li>></li>
+  <li><a href="{% url 'assignment:all' course_type=course_type course_id=course_id %}">All assignments</a></li>
+  <li>></li>
+  <li><a href="{% url 'assignment:detail' course_type=course_type assignment_id=assignment_id course_id=course_id %}">Assignment</a></li>
+  <li>></li>
+{% endblock breadcrumbs %}
 
 {% block form_enctype %}
   enctype='multipart/form-data'

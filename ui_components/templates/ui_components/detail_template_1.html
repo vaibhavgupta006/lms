@@ -6,8 +6,12 @@
 {% endblock static %}
 
 {% block body %}
-    <div class = 'header'>
+      <div class = 'header'>
         <div class='info'>
+          <ul class='breadcrumb'>
+            {% block breadcrumbs %}
+            {% endblock breadcrumbs %}
+          </ul>
           <h1 class='heading'>
             {% block heading %}
             {% endblock heading %}

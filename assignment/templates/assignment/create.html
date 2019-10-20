@@ -9,6 +9,15 @@
   Create assignment
 {% endblock heading %}
 
+{% block breadcrumbs %}
+  <li><a href="{% url 'dashboard:home' %}">Home</a></li>
+  <li>></li>
+  <li><a href="{% url 'course:list' course_type='my-courses' %}">My-courses</a></li>
+  <li>></li>
+  <li><a href="{% url 'course:detail' course_type='my-courses' id=course_id %}">Course</a></li>
+  <li>></li>
+{% endblock breadcrumbs %}
+
 {% block form %}
     {% csrf_token %}
     {{ form }}

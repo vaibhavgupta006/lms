@@ -9,6 +9,10 @@
 {% block body %}
     <div class='header'>
         <h1 class='heading'>
+            <ul class='breadcrumb'>
+                {% block breadcrumbs %}
+                {% endblock breadcrumbs %}
+            </ul>
             {% block heading %}
             {% endblock heading %}
         </h1>

@@ -9,7 +9,7 @@
 }
 
 .content .header {
-  padding: 30px;
+  padding: 40px 30px 30px 30px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -29,6 +29,10 @@
   margin: 0;
   font-weight: 400;
   font-size: 35px;
+}
+
+.content .header .actions {
+  padding-top: 50px;
 }
 
 .content .header .actions a {
