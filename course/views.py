@@ -132,3 +132,8 @@ class CourseUpdateView(UpdateView):
             return self.request.user.hosted_courses.get(id=course_id)
         except ObjectDoesNotExist:
             raise Http404
+
+    def get_context_data(self, **kwargs):
+        kwargs = super().get_context_data(**kwargs)
+        kwargs['course_id'] = self.kwargs.get('course_id')
+        return kwargs

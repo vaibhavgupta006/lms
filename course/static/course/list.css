@@ -1,19 +1,4 @@
-body .content {
-  display: -ms-grid;
-  display: grid;
-      grid-template-areas: "title" "courses";
-  -ms-grid-rows: auto auto 1fr;
-      grid-template-rows: auto auto 1fr;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  height: 100%;
-}
-
-body .content .title {
-  -ms-grid-row: 1;
-  -ms-grid-column: 1;
-  grid-area: title;
+body .content .header {
   padding-top: 50px;
   font-family: "Noto Sans JP", sans-serif;
   font-size: 15px;
@@ -22,22 +7,33 @@ body .content .title {
 
 body .content .courses {
   padding: 50px 0 50px 0;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-row: 2;
-  -ms-grid-column: 1;
-  grid-area: courses;
-  grid-gap: 40px 1.8vw;
-  -ms-grid-columns: (200px)[5];
-      grid-template-columns: repeat(5, 200px);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 body .content .courses a {
   text-decoration: none;
 }
 
+body .content .courses a .filler-course-container {
+  justify-self: flex-start;
+  width: 195px;
+  height: 1px;
+  margin: 0 10px 40px 10px;
+}
+
 body .content .courses a .course-container {
-  width: 100%;
+  justify-self: flex-start;
+  margin: 0 10px 40px 10px;
+  width: 195px;
   height: 250px;
   background-color: #ffffff;
   -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);

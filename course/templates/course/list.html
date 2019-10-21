@@ -5,14 +5,19 @@
   <link rel="stylesheet" href="{% static 'course/list.css' %}">
 {% endblock static %}
 
+{% block title %}
+  {{filter}}
+{% endblock title %}
+
 {% block navbar-items %}
   <a href="" class='btn btn-navbar navbar-item'>Log out</a>
 {% endblock navbar-items %}
 
 {% block body %}
-  <div class='title'>
+  <div class='header'>
     <h1>{{ filter|capfirst }}</h1>
   </div>
+  
   <div class='courses'>
     {% for object in object_list %}
         {% if filter == 'Enrolled courses' %}
@@ -33,5 +38,25 @@
           </a>
         {% endif %}
     {% endfor %}
+    <a>
+      <div class='filler-course-container'>
+      </div>
+    </a>
+    <a>
+      <div class='filler-course-container'>
+      </div>
+    </a>
+    <a class="filler">
+      <div class='filler-course-container'>
+      </div>
+    </a>
+    <a class="filler">
+      <div class='filler-course-container'>
+      </div>
+    </a>
+    <a class="filler">
+      <div class='filler-course-container'>
+      </div>
+    </a>
   </div>
 {% endblock body %}
