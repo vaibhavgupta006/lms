@@ -5,7 +5,8 @@ from .views import (
     CreateQuestionView,
     AssignmentListView,
     SubmitView,
-    SubmissionView
+    SubmissionView,
+    AssignmentUpdateView,
 )
 
 
@@ -19,6 +20,9 @@ urlpatterns = [
 
     path('<int:course_id>/assignments/<int:assignment_id>/',
          AssignmentDetailView.as_view(), name='detail'),
+
+    path('<int:course_id>/assignments/<int:assignment_id>/update',
+         AssignmentUpdateView.as_view(), name='update'),
 
     path('<int:course_id>/assignments/<int:assignment_id>/add-question/',
          CreateQuestionView.as_view(), name='create-question'),

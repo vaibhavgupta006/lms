@@ -1,8 +1,13 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic import CreateView, DetailView, ListView, FormView
-from .forms import AssignmentCreationForm, QuestionCreationForm, UploadSolutionForm, MyFormSet
+from django.views.generic import CreateView, DetailView, ListView, FormView, UpdateView
+from .forms import (
+    AssignmentCreationForm,
+    QuestionCreationForm,
+    UploadSolutionForm,
+    MyFormSet,
+)
 from .models import Assignment, Question, Submission
 from django.urls import reverse, reverse_lazy
 from django.forms import inlineformset_factory, formset_factory
@@ -179,16 +184,18 @@ class SubmissionView(ListView):
 
     def group_queryset(self, queryset, question_count):
         # user_count = queryset.count()//question_count
+        print(queryset)
         new_queryset = []
         group = []
         try:
             prev_user = queryset[0].user
         except IndexError:
             return queryset
-        for index, submission in enumerate(queryset):
+        for submission in queryset:
             if submission.user != prev_user:
                 new_queryset.append(group)
                 group = []
+                prev_user = submission.user
             group.append(submission)
         new_queryset.append(group)
         return new_queryset
@@ -210,7 +217,8 @@ class SubmissionView(ListView):
             question__assignment=assignment
         )
         submissions = submissions.order_by(
-            '-first_name').order_by('-last_name').order_by('-id')
+            '-user__first_name', '-user__last_name', '-user__id'
+        )
         return self.group_queryset(submissions, question_count)
 
     def get_context_data(self, **kwargs):
@@ -271,9 +279,10 @@ class SubmitView(FormView):
 
     def form_valid(self, forms):
         for form in forms:
-            form.instance.question = form.question
-            form.instance.user = self.request.user
-            form.save()
+            if form.instance.solution != None:
+                form.instance.question = form.question
+                form.instance.user = self.request.user
+                form.save()
 
         return HttpResponseRedirect(self.get_success_url())
 
@@ -287,3 +296,33 @@ class SubmitView(FormView):
         kwargs['course_id'] = self.kwargs.get('course_id')
         kwargs['assignment_id'] = self.kwargs.get('assignment_id')
         return kwargs
+
+
+class AssignmentUpdateView(UpdateView):
+    template_name = 'assignment/update.html'
+    form_class = AssignmentCreationForm
+
+    def get(self, request, *args, **kwargs):
+        if self.kwargs.get('course_type') != 'my-courses':
+            raise Http404
+        else:
+            return super().get(request, *args, **kwargs)
+
+    def get_my_course_assignment(self, course_id, assignment_id):
+        try:
+            course = self.request.user.hosted_courses.get(id=course_id)
+            return course.assignments.get(id=assignment_id)
+        except ObjectDoesNotExist:
+            raise Http404
+
+    def get_object(self, queryset=None):
+        course_id = self.kwargs.get('course_id')
+        assignment_id = self.kwargs.get('assignment_id')
+        course_type = self.kwargs.get('course_type')
+        return self.get_my_course_assignment(course_id, assignment_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['course_id'] = self.kwargs.get('course_id')
+        context['assignment_id'] = self.kwargs.get("assignment_id")
+        return context

@@ -1,15 +1,31 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-  </head>
-  <body>
-    <form method="POST">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" />
-    </form>
-  </body>
-</html>
+{% extends 'ui_components/form_template_1.html' %}
+{% load static %}
+
+{% block title %}
+  Update course 
+{% endblock title %}
+
+{% block heading %}
+  Update Course
+{% endblock heading %}
+
+
+{% block form_enctype %}
+  enctype='multipart/form-data'
+{% endblock form_enctype %}
+
+{% block form %}
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  {{ form.name.label_tag }}
+  {{ form.name.errors }}
+  {{ form.name }}
+  {{ form.description.label_tag }}
+  {{ form.description.errors }}
+  {{ form.description }}
+  {{ form.image.label_tag }}
+  {{ form.image.errors }}
+  <label for="id_image" class='file'><p>Choose image</p> {{ form.instance.image.url }}</label>
+  {{ form.image }}
+  <input type="submit" value="Update">
+{% endblock form %}

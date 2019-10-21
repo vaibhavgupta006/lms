@@ -4,6 +4,7 @@ from .models import Course
 
 class CourseCreationForm(forms.ModelForm):
     description = forms.CharField(required=False, widget=forms.Textarea())
+    image = forms.FileField(required=False, widget=forms.FileInput())
 
     class Meta:
         model = Course

@@ -16,14 +16,20 @@ def get_upload_location(instance, filename):
 
 class Course(models.Model):
     tutor = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=False, related_name='hosted_courses')
-    name = models.CharField(max_length=50, blank=False,
-                            null=False, unique=True)
+        User, on_delete=models.CASCADE, null=False, related_name='hosted_courses'
+    )
+    name = models.CharField(
+        max_length=50, blank=False,
+        null=False, unique=True
+    )
     description = models.CharField(
         max_length=1000,
         default='No description provide by teacher'
     )
-    image = models.ImageField(upload_to=get_upload_location)
+    image = models.ImageField(
+        null=False, blank=False,
+        upload_to=get_upload_location
+    )
 
     def get_absolute_url(self):
         return reverse_lazy('course:detail', kwargs={"id": self.id, 'course_type': 'my-courses'})

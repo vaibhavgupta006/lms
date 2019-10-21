@@ -1,0 +1,29 @@
+{% extends 'ui_components/form_template_1.html' %}
+{% load static %}
+
+{% block title %}
+  Update assignment
+{% endblock title %}
+
+{% block heading %}
+  Update assignment
+{% endblock heading %}
+
+{% block breadcrumbs %}
+  <li><a href="{% url 'dashboard:home' %}">Home</a></li>
+  <li>></li>
+  <li><a href="{% url 'course:list' course_type='my-courses' %}">My-courses</a></li>
+  <li>></li>
+  <li><a href="{% url 'course:detail' course_type='my-courses' id=course_id %}">Course</a></li>
+  <li>></li>
+  <li><a href="{% url 'assignment:all' course_type='my-courses' course_id=course_id %}">All Assignments</a></li>
+  <li>></li>
+  <li><a href="{% url 'assignment:detail' course_type='my-courses' course_id=course_id assignment_id=assignment_id %}">Assignment</a></li>
+  <li>></li>
+{% endblock breadcrumbs %}
+
+{% block form %}
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Create">
+{% endblock form%}
