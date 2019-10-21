@@ -27,7 +27,8 @@ class Course(models.Model):
         default='No description provide by teacher'
     )
     image = models.ImageField(
-        null=False, blank=False,
+        null=False,
+        blank=False,
         upload_to=get_upload_location
     )
 

@@ -302,6 +302,9 @@ class AssignmentUpdateView(UpdateView):
     template_name = 'assignment/update.html'
     form_class = AssignmentCreationForm
 
+    def get_success_url(self):
+        return reverse('assignment:detail', kwargs=self.kwargs)
+
     def get(self, request, *args, **kwargs):
         if self.kwargs.get('course_type') != 'my-courses':
             raise Http404
