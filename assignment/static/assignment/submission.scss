@@ -1,5 +1,5 @@
 .list-item {
-  margin: 10px 40px 0 40px;
+  margin: 10px 0px 0 0px;
   display: flex;
   justify-content: stretch;
   flex-flow: column;
@@ -12,8 +12,6 @@
     .description {
       font-size: 14px;
       &.clip {
-        //   white-space: nowrap;
-        //   word-wrap: nowrap;
         white-space: nowrap;
         width: 55vw;
         text-overflow: ellipsis;
@@ -21,17 +19,9 @@
       }
     }
     a {
-      display: flex;
-      flex-flow: row;
-      justify-content: left;
-      align-items: center;
+      margin-right: 5%;
       border: none;
       border-radius: 5px;
-      // background-color: #4c2fc9;
-      // color: white;
-      // height: 30px;
-      width: 100px;
-      margin-right: 50px;
       font-family: "Noto Sans JP", sans-serif;
       font-weight: 500;
       font-size: 13px;

@@ -1,5 +1,5 @@
 .list-item {
-  margin: 10px 40px 0 40px;
+  margin: 10px 0px 0 0px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -41,23 +41,9 @@
 }
 
 .list-item .sub-list a {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: row;
-          flex-flow: row;
-  -webkit-box-pack: left;
-      -ms-flex-pack: left;
-          justify-content: left;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  margin-right: 5%;
   border: none;
   border-radius: 5px;
-  width: 100px;
-  margin-right: 50px;
   font-family: "Noto Sans JP", sans-serif;
   font-weight: 500;
   font-size: 13px;
