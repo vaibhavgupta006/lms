@@ -51,5 +51,8 @@ class EnrolledCourse(models.Model):
         related_name='students'
     )
 
+    class Meta:
+        unique_together = (('user', 'course'),)
+
     def __str__(self):
         return f"{self.user.username} enrolled in course {self.course.id}"

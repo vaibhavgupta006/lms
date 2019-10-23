@@ -5,6 +5,10 @@
   {{ object.name }}
 {% endblock title %}
 
+{% block static_detail %}
+  <script src="{% static 'course/enroll.js' %}" ></script>
+{% endblock static_detail %}
+
 {% block breadcrumbs %}
   <li><a href="{% url 'dashboard:home' %}">Home</a></li>
   <li>></li>
@@ -38,12 +42,13 @@
       <p class='detail-heading' >About this course :</p>
       <p class='detail-content'>{{ object.description|capfirst }}</p>
   </div>
+  {% csrf_token %}
   {% if is_tutor %}
     {% include 'ui_components/detail_btn_primary.html' with btn_text='Delete' btn_id="id='delete'" btn_icon='delete' %}
   {% elif is_student %}
-    {% include 'ui_components/detail_btn_primary.html' with btn_text='Unenroll' btn_icon='clear' %}
+    {% include 'ui_components/detail_btn_primary.html' with btn_text='Unenroll' btn_icon='clear' btn_id="id='unenroll'" %}
   {% else %}
-    {% include 'ui_components/detail_btn_primary.html' with btn_text='Enroll' btn_icon='add' %}
+    {% include 'ui_components/detail_btn_primary.html' with btn_text='Enroll' btn_icon='add' btn_id="id='enroll'" %}
   {% endif %}
 {% endblock detail %}
   

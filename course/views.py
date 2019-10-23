@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, render_to_response
 from .forms import CourseCreationForm
 from django.views.generic import (
     CreateView,
@@ -6,10 +6,10 @@ from django.views.generic import (
     ListView,
     UpdateView
 )
-from .models import Course
-from django.http import Http404, HttpResponseRedirect
+from .models import Course, EnrolledCourse
+from django.http import Http404, HttpResponseRedirect, HttpResponseBadRequest
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.db.models import Q
 
 # Create your views here.
 
@@ -117,11 +117,6 @@ class CourseListView(ListView):
         return context
 
 
-def enrollView(request, *args, **kwargs):
-    course = Course.objects.get(id=kwargs.get('course_id'))
-    request.enrolled_courses.add(course)
-
-
 class CourseUpdateView(UpdateView):
     template_name = 'course/update.html'
     form_class = CourseCreationForm
@@ -137,3 +132,39 @@ class CourseUpdateView(UpdateView):
         kwargs = super().get_context_data(**kwargs)
         kwargs['course_id'] = self.kwargs.get('course_id')
         return kwargs
+
+
+def enrollView(request, *args, **kwargs):
+    if request.method == "POST":
+        course = Course.objects.get(id=kwargs.get('course_id'))
+        user = request.user
+        try:
+            user.hosted_courses.get(id=course.id)
+            raise HttpResponseBadRequest
+        except ObjectDoesNotExist:
+            pass
+
+        new_enrollment = EnrolledCourse()
+        new_enrollment.user = user
+        new_enrollment.course = course
+        new_enrollment.save()
+        return render_to_response('course/student_actions.html')
+    else:
+        raise Http404
+
+
+def unenrollView(request, *args, **kwargs):
+    if request.method == "POST":
+        course = Course.objects.get(id=kwargs.get('course_id'))
+        user = request.user
+        try:
+            enrolled_course = EnrolledCourse.objects.get(
+                Q(user=user) & Q(course=course)
+            )
+            enrolled_course.delete()
+            return render_to_response('course/user_actions.html')
+        except ObjectDoesNotExist:
+            raise Http404
+
+    else:
+        raise Http404

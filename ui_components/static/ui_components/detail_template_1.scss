@@ -147,6 +147,9 @@
       cursor: default;
       pointer-events: none;
     }
+    &.waiting {
+      background-color: rgb(247, 110, 19);
+    }
     i {
       font-size: 18px;
       padding: 0 5px 0 0;

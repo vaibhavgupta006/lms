@@ -218,6 +218,10 @@
   pointer-events: none;
 }
 
+.content .btn-primary.waiting {
+  background-color: #f76e13;
+}
+
 .content .btn-primary i {
   font-size: 18px;
   padding: 0 5px 0 0;

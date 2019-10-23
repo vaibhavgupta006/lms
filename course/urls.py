@@ -4,7 +4,9 @@ from .views import (
     CourseCreateView,
     CourseDetailView,
     CourseListView,
-    CourseUpdateView
+    CourseUpdateView,
+    enrollView,
+    unenrollView,
 )
 
 
@@ -13,6 +15,16 @@ urlpatterns = [
     url(
         r'^(?P<course_type>(all|my-courses|enrolled-courses))/$',
         CourseListView.as_view(), name='list'
+    ),
+
+    path(
+        'all/<int:course_id>/enroll/',
+        enrollView, name='enroll'
+    ),
+
+    path(
+        'enrolled-courses/<int:course_id>/unenroll/',
+        unenrollView, name='unenroll'
     ),
 
     path('create/', CourseCreateView.as_view(), name='create'),
