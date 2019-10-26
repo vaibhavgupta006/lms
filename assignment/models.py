@@ -2,12 +2,13 @@ from django.db import models
 from course.models import Course
 from django.urls import reverse
 from authentication.models import User
+from docx.enum.style import WD_STYLE_TYPE
+from django.conf import settings
+
 import os
 import sys
 import subprocess
 import docx
-from docx.enum.style import WD_STYLE_TYPE
-from django.conf import settings
 
 
 # Create your models here.
@@ -32,8 +33,20 @@ def add_header(input_file, header_text):
     input_doc.save(input_file)
 
 
-def convert_word_pdf(input_file, output_file, header):
-    # add_header(input_file, header)
+def convert_image_word(input_file, output_file_dir, file_name):
+    doc = docx.Document()
+    doc.add_picture(input_file, width=docx.shared.Inches(6))
+    doc.styles.add_style("Heading", docx.enum.style.WD_STYLE_TYPE.PARAGRAPH)
+    doc_path = os.path.join(output_file_dir, f'{file_name}.docx')
+    doc.save(doc_path)
+
+    return doc_path
+
+
+def convert_word_pdf(input_file, output_file, header_text):
+
+    add_header(input_file, header_text)
+
     args = [
         'libreoffice',
         '--headless',
@@ -107,28 +120,40 @@ class Submission(models.Model):
         file_format = self.solution.url.rsplit('.')[-1]
         input_file = self.solution.path
 
-        output_file = input_file.split(os.sep)[0:-1]
-        output_file = os.sep.join(output_file)
+        input_file_path_list = input_file.split(os.sep)
+        file_name = input_file_path_list[-1].replace(f'.{file_format}', '', 1)
 
-        output_relative_media = self.solution.url.split(os.sep)[2:]
-        output_relative_media = (os.sep.join(output_relative_media)).split('.')
-        output_relative_media[-1] = 'pdf'
-        output_relative_media = ".".join(output_relative_media)
+        output_file_dir = os.sep.join(input_file_path_list[0:-1])
+
+        output_relative_media = input_file.replace(settings.MEDIA_URL, '', 1)
+        output_relative_media = output_relative_media.replace(
+            f'{file_name}.{file_format}',
+            f'{file_name}.pdf',
+            1
+        )
 
         timeout = 10
 
         supported_file_format = ['doc', 'docx', 'jpg', 'jpeg', 'png']
+        image_file_format = ['jpg', 'jpeg', 'png']
+        is_image = True if file_format in image_file_format else False
 
         if file_format == 'pdf':
             self.solution_pdf = self.solution
             return
         elif file_format in supported_file_format:
+            if is_image:
+                input_file = convert_image_word(
+                    input_file, output_file_dir, file_name
+                )
             convert_word_pdf(
                 input_file,
-                output_file,
+                output_file_dir,
                 self.question.question,
             )
             self.solution_pdf = output_relative_media
+            if is_image:
+                os.remove(input_file)
         else:
             pass
 
