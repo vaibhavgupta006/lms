@@ -25,7 +25,7 @@ def add_header(input_file, header_text):
         run.text = ''
     run = header.paragraphs[0].add_run(f'Question: ')
     run.font.color.rgb = docx.shared.RGBColor(0x4c, 0x2f, 0xc9)
-    run = header.paragraphs[0].add_run(f'Question: {header_text}')
+    run = header.paragraphs[0].add_run(f'{header_text}')
     run.font.color.rgb = docx.shared.RGBColor(100, 100, 100)
     header.paragraphs[0].style = input_doc.styles['Heading']
     header.add_paragraph()
@@ -33,7 +33,7 @@ def add_header(input_file, header_text):
 
 
 def convert_word_pdf(input_file, output_file, header):
-    add_header(input_file, header)
+    # add_header(input_file, header)
     args = [
         'libreoffice',
         '--headless',
@@ -117,10 +117,12 @@ class Submission(models.Model):
 
         timeout = 10
 
+        supported_file_format = ['doc', 'docx', 'jpg', 'jpeg', 'png']
+
         if file_format == 'pdf':
             self.solution_pdf = self.solution
             return
-        elif file_format == 'doc' or file_format == 'docx':
+        elif file_format in supported_file_format:
             convert_word_pdf(
                 input_file,
                 output_file,
