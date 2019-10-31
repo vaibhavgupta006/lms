@@ -8,7 +8,8 @@ import os
 def get_upload_location(instance, filename):
     return os.path.join(
         os.path.join(
-            'courses', f'course_{instance.id}'
+            'courses',
+            f'course_{instance.id}'
         ),
         filename
     )

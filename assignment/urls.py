@@ -7,6 +7,7 @@ from .views import (
     SubmitView,
     SubmissionView,
     AssignmentUpdateView,
+    AllSubmissionPDFView
 )
 
 
@@ -32,4 +33,7 @@ urlpatterns = [
 
     path('<int:course_id>/assignments/<int:assignment_id>/submissions/',
          SubmissionView.as_view(), name='submissions'),
+
+    path('<int:course_id>/assignments/<int:assignment_id>/submissions/all-submissions-pdf',
+         AllSubmissionPDFView.as_view(), name='all-submissions-pdf'),
 ]

@@ -9,6 +9,17 @@ import os
 import sys
 import subprocess
 import docx
+from docx.shared import Pt
+from reportlab.platypus import (
+    SimpleDocTemplate,
+    Paragraph,
+    Image,
+    Spacer
+)
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import inch, cm
+from reportlab.lib.colors import HexColor
+from io import BytesIO
 
 
 # Create your models here.
@@ -16,7 +27,16 @@ import docx
 def get_upload_location(instance, filename):
     assignment_name = f"assignment_{instance.question.assignment.id}"
     course_name = f"course_{instance.question.assignment.course.id}"
-    return os.path.join(os.path.join(assignment_name, course_name), filename)
+    return os.path.join(
+        'assignments',
+        os.path.join(
+            course_name,
+            os.path.join(
+                assignment_name,
+                filename
+            )
+        )
+    )
 
 
 def add_header(input_file, header_text):
@@ -24,12 +44,12 @@ def add_header(input_file, header_text):
     header = input_doc.sections[0].header
     for run in header.paragraphs[0].runs:
         run.text = ''
-    run = header.paragraphs[0].add_run(f'Question: ')
-    run.font.color.rgb = docx.shared.RGBColor(0x4c, 0x2f, 0xc9)
-    run = header.paragraphs[0].add_run(f'{header_text}')
-    run.font.color.rgb = docx.shared.RGBColor(100, 100, 100)
+    run = header.paragraphs[0].add_run(f'Question: {header_text}')
+    run.font.color.rgb = docx.shared.RGBColor(0x3b, 0x3b, 0x3b)
+    run.font.size = Pt(13)
     header.paragraphs[0].style = input_doc.styles['Heading']
-    header.add_paragraph()
+    if len(header.paragraphs) == 1:
+        header.add_paragraph()
     input_doc.save(input_file)
 
 
@@ -41,6 +61,33 @@ def convert_image_word(input_file, output_file_dir, file_name):
     doc.save(doc_path)
 
     return doc_path
+
+
+def convert_image_pdf(input_file, output_file, header_text):
+
+    pdf = SimpleDocTemplate(output_file)
+
+    sample_style_sheet = getSampleStyleSheet()
+
+    parastyle = ParagraphStyle(
+        'header',
+        fontSize=13,
+        textColor=HexColor(0x3b3b3b)
+        # fontName="Roboto"
+    )
+
+    flowables = [
+        Paragraph(f'Question: {header_text}', parastyle,),
+        Spacer(2, height=2*cm),
+        Image(
+            input_file,
+            width=6*inch,
+            height=6*inch,
+            kind='proportional'
+        ),
+    ]
+
+    pdf.build(flowables=flowables)
 
 
 def convert_word_pdf(input_file, output_file, header_text):
@@ -117,43 +164,40 @@ class Submission(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=False)
 
     def add_pdf_solution(self):
-        file_format = self.solution.url.rsplit('.')[-1]
         input_file = self.solution.path
-
-        input_file_path_list = input_file.split(os.sep)
-        file_name = input_file_path_list[-1].replace(f'.{file_format}', '', 1)
-
-        output_file_dir = os.sep.join(input_file_path_list[0:-1])
-
-        output_relative_media = input_file.replace(settings.MEDIA_URL, '', 1)
-        output_relative_media = output_relative_media.replace(
-            f'{file_name}.{file_format}',
-            f'{file_name}.pdf',
-            1
-        )
+        file_name = os.path.basename(input_file)
+        file_format = file_name.rsplit('.')[-1]
+        output_file_dir = os.path.dirname(input_file)
+        output_file = input_file.replace(f'.{file_format}', '.pdf')
+        input_url = self.solution.url
+        output_url = input_url.replace(f'.{file_format}', '.pdf')
+        output_url = output_url.replace(settings.MEDIA_URL, '')
 
         timeout = 10
 
-        supported_file_format = ['doc', 'docx', 'jpg', 'jpeg', 'png']
         image_file_format = ['jpg', 'jpeg', 'png']
+        document_file_format = ['doc', 'docx']
+        supported_file_format = image_file_format + document_file_format
+
         is_image = True if file_format in image_file_format else False
 
         if file_format == 'pdf':
             self.solution_pdf = self.solution
             return
-        elif file_format in supported_file_format:
-            if is_image:
-                input_file = convert_image_word(
-                    input_file, output_file_dir, file_name
-                )
+        elif file_format in document_file_format:
             convert_word_pdf(
                 input_file,
                 output_file_dir,
                 self.question.question,
             )
-            self.solution_pdf = output_relative_media
-            if is_image:
-                os.remove(input_file)
+            self.solution_pdf.name = output_url
+        elif file_format in image_file_format:
+            convert_image_pdf(
+                input_file,
+                output_file,
+                self.question.question
+            )
+            self.solution_pdf.name = output_url
         else:
             pass
 

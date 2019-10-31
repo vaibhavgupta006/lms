@@ -1,7 +1,14 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.generic import CreateView, DetailView, ListView, FormView, UpdateView
+from django.views.generic import (
+    CreateView,
+    DetailView,
+    ListView,
+    FormView,
+    UpdateView,
+    View,
+)
 from .forms import (
     AssignmentCreationForm,
     QuestionCreationForm,
@@ -11,10 +18,17 @@ from .forms import (
 from .models import Assignment, Question, Submission
 from django.urls import reverse, reverse_lazy
 from django.forms import inlineformset_factory, formset_factory
+from django.conf import settings
 from datetime import datetime
+from PyPDF2 import PdfFileMerger
+import os
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch, cm
+from io import BytesIO
 
 
-# Create your views here.
+# Create your views here
 
 
 class CreateAssignmentView(CreateView):
@@ -184,7 +198,6 @@ class SubmissionView(ListView):
 
     def group_queryset(self, queryset, question_count):
         # user_count = queryset.count()//question_count
-        print(queryset)
         new_queryset = []
         group = []
         try:
@@ -226,6 +239,7 @@ class SubmissionView(ListView):
         kwargs['course_id'] = self.kwargs.get('course_id')
         kwargs['assignment_id'] = self.kwargs.get('assignment_id')
         kwargs['course_type'] = self.kwargs.get('course_type')
+        kwargs['is_tutor'] = True if kwargs['course_type'] == 'my-courses' else False
         return kwargs
 
 
@@ -329,3 +343,84 @@ class AssignmentUpdateView(UpdateView):
         context['course_id'] = self.kwargs.get('course_id')
         context['assignment_id'] = self.kwargs.get("assignment_id")
         return context
+
+
+class AllSubmissionPDFView(SubmissionView):
+    def post(self, request, *args, **kwargs):
+        raise Http404
+
+    def add_page(self, flowables):
+        pdf_buffer = BytesIO()
+        pdf = SimpleDocTemplate(pdf_buffer)
+        pdf.build(flowables)
+        return pdf_buffer
+
+    def update_input_params(self, solution_pdf_url):
+        input_file = os.path.join(
+            settings.MEDIA_ROOT,
+            solution_pdf_url.replace(
+                settings.MEDIA_URL, '', 1
+            )
+        )
+        input_dir = os.path.dirname(input_file)
+        base_url = solution_pdf_url.replace(
+            f'/{os.path.basename(input_file)}',
+            '',
+            1
+        )
+        return input_dir, input_file, base_url
+
+    def get(self, request, *args, **kwargs):
+
+        submissions = self.get_queryset()
+
+        merger = PdfFileMerger()
+
+        input_dir = None
+        base_url = None
+
+        course_name = f'Course: {submissions[0][0].question.assignment.course.name}'
+        assignment_name = f'Assignment: {submissions[0][0].question.assignment.name}'
+        image_path = submissions[0][0].question.assignment.course.image.path
+
+        sample_style_sheet = getSampleStyleSheet()
+
+        merger.append(
+            self.add_page(
+                [
+                    Paragraph(course_name, sample_style_sheet['Heading1'],),
+                    Paragraph('', sample_style_sheet['Heading1'],),
+                    Paragraph(assignment_name, sample_style_sheet['Heading2']),
+                    Spacer(2, height=2*cm),
+                    Image(
+                        image_path,
+                        width=6*inch,
+                        height=6*inch,
+                        kind='proportional'
+                    ),
+                ]
+            )
+        )
+
+        for group in submissions:
+            user_name = f'User: {group[0].user.first_name} {group[0].user.last_name}'
+            email = f'Email: {group[0].user.email}'
+            flowables = [
+                Paragraph(user_name, sample_style_sheet['Title']),
+                Paragraph('', sample_style_sheet['Title']),
+                Paragraph(email, sample_style_sheet['Title']),
+            ]
+            pdf_page = self.add_page(flowables)
+            merger.append(pdf_page)
+            for submission in group:
+                solution_url = submission.solution_pdf.url
+                # print
+                input_dir, input_file, base_url = self.update_input_params(
+                    solution_url
+                )
+                print(input_file)
+                merger.append(input_file)
+
+        merger.write(os.path.join(input_dir, 'all_submission.pdf'))
+        merger.close()
+        return HttpResponseRedirect(f'{base_url}/all_submission.pdf')

@@ -26,6 +26,12 @@
     <li>></li>
 {% endblock breadcrumbs %}
 
+{% block actions %}
+    {% if is_tutor %}
+        <a class='btn' href='all-submissions-pdf' target='_blank'>Download all</a>
+    {% endif %}
+{% endblock actions %}
+
 {% block list %}
     {% for user in object_list %}
         <div class='list-item'>
