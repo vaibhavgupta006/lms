@@ -19,10 +19,10 @@ let bindGetFileName = function(index, fileInput) {
 };
 
 let bindAddForm = function(index, formset) {
-  formType = $(formset).attr("form-model");
+  // formType = $(formset).attr("form-model");
 
   $(formset).click(function(e) {
-    addQuestion(e, formType);
+    addNewForm(e, null);
   });
 };
 
@@ -47,43 +47,115 @@ let getFileName = function(e) {
   filename = e.target.files[0].name;
   id = e.target.id;
   customUploadButton = $(`.file[for="${id}"]`);
+  if (customUploadButton.hasClass("preview-image")) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      customUploadButton.html(`<img src='${e.target.result}'></img>`);
+      customUploadButton.addClass("image-selected");
+    };
+
+    reader.readAsDataURL(e.target.files[0]);
+    oldForm = customUploadButton.parents()[0];
+    addNewForm(e, $(oldForm));
+
+    return;
+  }
   customUploadButton.html(`<p>Choose file</p> ${filename}`);
 };
 
-let addQuestion = function(e, formType) {
-  e.preventDefault();
-  newForm = $(".form")
-    .last()
-    .clone(true);
+let change_nested_form = function(nested_formset) {
+  nested_form = $(nested_formset).find(".form-nested");
+  let prefix = $(nested_formset).attr("prefix");
 
-  $.each(newForm.find("label"), function(index, label) {
-    incrementAttrs(label, "for");
+  let prefix_list = prefix.split("-");
+  prefix_list[1] = parseInt(prefix_list[1]) + 1;
+  let new_prefix = prefix_list.join("-");
+
+  let management_form = $(nested_formset).children(
+    ".form-nested-management-form"
+  );
+  prefix_list.pop();
+  let new_management_prefix = prefix_list.join("-");
+  prefix_list[1] -= 1;
+  let management_prefix = prefix_list.join("-");
+
+  $.each(management_form.children("input"), function(index, input) {
+    replaceAttrs(input, "id", management_prefix, new_management_prefix);
+    replaceAttrs(input, "name", management_prefix, new_management_prefix);
   });
 
-  $.each(newForm.find("input"), function(index, input) {
+  let total_forms = `id_${new_management_prefix}-TOTAL_FORMS`;
+  let initial_forms = `id_${new_management_prefix}-INITIAL_FORMS`;
+
+  management_form.children(`#${total_forms}`).attr("value", 1);
+  management_form.children(`#${initial_forms}`).attr("value", 0);
+
+  $.each(nested_form.children("label"), function(index, label) {
+    replaceAttrs(label, "for", prefix, new_prefix);
+  });
+
+  $.each(nested_form.children("input"), function(index, input) {
     $(input).val("");
-    incrementAttrs(input, "name");
-    incrementAttrs(input, "id");
+    replaceAttrs(input, "name", prefix, new_prefix);
+    replaceAttrs(input, "id", prefix, new_prefix);
   });
 
-  $.each(newForm.find("textarea"), function(index, textarea) {
+  nested_form.attr("prefix", `${new_prefix}-0`);
+};
+
+let addNewForm = function(e, oldForm) {
+  if (oldForm == undefined || oldForm == null) {
+    e.preventDefault();
+    oldForm = $(".form").last();
+    newForm = oldForm.clone(true);
+  } else {
+    newForm = oldForm.clone(true);
+  }
+
+  let prefix = newForm.attr("prefix");
+
+  let prefix_list = prefix.split("-");
+  let lastElementIndex = prefix_list.length - 1;
+
+  prefix_list[lastElementIndex] = parseInt(prefix_list[lastElementIndex]) + 1;
+  let newPrefix = prefix_list.join("-");
+
+  newForm.attr("prefix", newPrefix);
+
+  // id starts from 0 => form number = last id + 1
+  let managementFormValue = prefix_list.pop() + 1;
+  let managementFormName = prefix_list.join("-");
+
+  nested_formsets = newForm.children(".nested-formset");
+  $.each(nested_formsets, function(index, nested_formset) {
+    change_nested_form(nested_formset);
+  });
+
+  $.each(newForm.children("label"), function(index, label) {
+    replaceAttrs(label, "for", prefix, newPrefix);
+  });
+
+  $.each(newForm.children("textarea"), function(index, textarea) {
     $(textarea).val("");
-    incrementAttrs(textarea, "name");
-    incrementAttrs(textarea, "id");
+    replaceAttrs(textarea, "name", prefix, newPrefix);
+    replaceAttrs(textarea, "id", prefix, newPrefix);
   });
 
-  formCount = $(`#id_${formType}-TOTAL_FORMS`);
-  newCount = parseInt(formCount.attr("value")) + 1;
-  formCount.attr("value", newCount);
+  $.each(newForm.children("input"), function(index, input) {
+    $(input).val("");
+    replaceAttrs(input, "name", prefix, newPrefix);
+    replaceAttrs(input, "id", prefix, newPrefix);
+  });
 
-  newForm.insertBefore(".dynamic-formset");
+  formCount = $(`#id_${managementFormName}-TOTAL_FORMS`);
+  formCount.attr("value", managementFormValue);
+
+  newForm.insertAfter(oldForm);
   return false;
 };
 
-let incrementAttrs = function(element, attrName) {
+let replaceAttrs = function(element, attrName, prefix, newPrefix) {
   attr = $(element).attr(attrName);
-  newAttr = attr.split("-");
-  newAttr[1] = parseInt(newAttr[1]) + 1;
-  newAttr = newAttr.join("-");
+  newAttr = attr.replace(prefix, newPrefix);
   $(element).attr(attrName, newAttr);
 };

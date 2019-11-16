@@ -5,6 +5,10 @@
   Assignment | {{object.name}}
 {% endblock title %}
 
+{% block static_detail %}
+  <link rel="stylesheet" href="{% static 'assignment/media.css' %}">
+{% endblock static_detail %}
+
 {% block heading %}
   {{ object.name|capfirst }}
 {% endblock heading %}
@@ -52,6 +56,20 @@
       <p class='detail-heading'>Questions:</p>
       {% for question in questions %}
         <p class='detail-content'>{{question.question|capfirst}}</p>
+        <div class='media'>
+          {% for media in question.media.all  %}
+            {% if media.name %}
+              <div>
+                <img src="{{ media.file.url }}" alt="{{ media.name }}">
+                <p>{{ media.name }}</p>
+              </div>
+            {% else %}
+              <div>
+                <img src="{{ media.file.url }}">
+              </div>
+            {% endif %}
+          {% endfor %}
+    </div>
         <hr style='border: .5px dashed rgb(200,200,200); margin:40px 0 40px 0;'>
       {% endfor %}
     </div>

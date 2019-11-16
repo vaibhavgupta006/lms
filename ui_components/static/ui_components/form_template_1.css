@@ -101,6 +101,32 @@ body .content form label.file p {
   font-size: 15px;
 }
 
+body .content form label.nested-file {
+  width: 40px;
+  height: 40px;
+  border: 1px dashed #646464;
+  border-radius: 5px;
+  background-color: transparent;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-top: 3px;
+}
+
+body .content form label.nested-file i {
+  color: #646464;
+}
+
+body .content form label.nested-file img {
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+}
+
+body .content form label.nested-file.image-selected {
+  border-width: 0px;
+}
+
 body .content form .errorlist {
   margin: 10px 0px 10px 0px;
 }
@@ -164,11 +190,12 @@ body .content form textarea {
   border-radius: 5px;
   outline: none;
   padding: 10px;
-  font-size: 17px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 400;
   resize: none;
   -webkit-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
+  font-family: "Noto Sans JP", sans-serif;
 }
 
 body .content form textarea:focus {

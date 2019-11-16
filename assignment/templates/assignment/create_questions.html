@@ -1,10 +1,9 @@
 {% extends 'ui_components/form_template_1.html' %}
 {% load static %}
 
-{% comment %} {% block static %}
-  <script src="{% static 'assignment/add-question.js' %}" ></script>
-  <link rel="stylesheet" href="{% static 'ui_components/form_template_1.css' %}">  
-{% endblock static %} {% endcomment %}
+{% comment %} {% block static_form %}  
+  <script src="{% static 'assignment/preview_image.js' %}"></script>
+{% endblock static_form %} {% endcomment %}
 
 {% block title %}
   Assignment | Add question
@@ -17,7 +16,7 @@
 {% block breadcrumbs %}
   <li><a href="{% url 'dashboard:home' %}">Home</a></li>
   <li>></li>
-  <li><a href="{% url 'course:list' course_type='my-courses' %}">'my-courses</a></li>
+  <li><a href="{% url 'course:list' course_type='my-courses' %}">My-courses</a></li>
   <li>></li><li><a href="{% url 'course:detail' course_type='my-courses' id=course_id %}">Course</a></li>
   <li>></li>
   <li><a href="{% url 'assignment:all' course_type='my-courses' course_id=course_id %}">All assignments</a></li>
@@ -26,12 +25,47 @@
   <li>></li>
 {% endblock breadcrumbs %}
 
+{% block form_enctype %}
+  enctype='multipart/form-data'
+{% endblock form_enctype  %}
+
 {% block form %}
   {% csrf_token %}
   {{ formset.management_form }}
   {% for form in formset %}
-    <div class='form' style='display:flex; flex-flow:column;'>
-      {{ form }}
+    <div prefix = {{ form.prefix }} class='form' style='display:flex; flex-flow:column;'>
+    {{ form }}
+    {% for nested_formset in form.nested_forms %}
+      <div class='nested-formset' prefix={{ nested_formset.prefix }}>
+        <div style='display:hidden;' class='form-nested-management-form'>
+          {{ nested_formset.management_form }}
+        </div>
+        <div style='display:flex; flex-flow:row wrap;'>
+          {% for form_nested in nested_formset %}
+            {{ form.non_field_errors }}
+            <div class='form-nested' style='margin-left: 3px; margin-right:3px;' prefix={{ form_nested.prefix }}>
+              {{ form_nested.file.errors }}
+              {% if form_nested.instance.pk %}
+                <label title='add file' class='file nested-file preview-image image-selected' for="{{ form_nested.file.id_for_label }}">
+              {% else %}
+                <label title='add file' class='file nested-file preview-image' for="{{ form_nested.file.id_for_label }}">
+              {% endif %}
+                {% if not form_nested.instance.pk %}
+                  <i class='material-icons'>add</i>
+                {% else %}
+                  <img src="{{ form_nested.instance.file.url }}">
+                {% endif %}
+              </label>
+              {{ form_nested.file }}
+              {% for hidden_field in form_nested.hidden_fields %}
+                {{ hidden_field }}
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+    <hr style='border: .5px dashed rgb(200,200,200); margin:20px 0 20px 0;'>
     </div>
   {% endfor %}
   <button class='icon-button dynamic-formset' form-model='questions' >

@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     CreateAssignmentView,
     AssignmentDetailView,
-    CreateQuestionView,
+    #     CreateQuestionView,
     AssignmentListView,
     SubmitView,
     SubmissionView,
@@ -25,8 +25,8 @@ urlpatterns = [
     path('<int:course_id>/assignments/<int:assignment_id>/update',
          AssignmentUpdateView.as_view(), name='update'),
 
-    path('<int:course_id>/assignments/<int:assignment_id>/add-question/',
-         CreateQuestionView.as_view(), name='create-question'),
+    #     path('<int:course_id>/assignments/<int:assignment_id>/add-question/',
+    #          CreateAssignmentQuestionView.as_view(), name='create-question'),
 
     path('<int:course_id>/assignments/<int:assignment_id>/submit/',
          SubmitView.as_view(), name='upload-solution'),

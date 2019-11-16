@@ -4,6 +4,7 @@ from .forms import UserRegistrationForm, UserLoginFrom
 from django.views.generic import CreateView
 from django.http import HttpResponseRedirect
 from django.contrib.auth.views import LoginView
+from django.contrib.auth import login, authenticate
 
 
 class SignupView(CreateView):
@@ -15,6 +16,14 @@ class SignupView(CreateView):
             return HttpResponseRedirect(reverse('dashboard:home'))
         else:
             return super().get(request, *args, **kwargs)
+
+    def form_valid(self, form, *args, **kwargs):
+        super().form_valid(form, *args, **kwargs)
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password1')
+        user = authenticate(email=email, password=password)
+        login(self.request, user)
+        return HttpResponseRedirect(reverse_lazy('dashboard:home'))
 
 
 class MyLoginView(LoginView):

@@ -165,14 +165,17 @@ body .content {
   font-size: 13px;
   font-weight: 400;
   list-style: none;
+  font-family: "Noto Sans JP", sans-serif;
 }
 
 .breadcrumb li {
   white-space: nowrap;
+  color: black;
   margin-right: 5px;
 }
 
 .breadcrumb li a {
   text-decoration: none;
+  color: black;
 }
 /*# sourceMappingURL=base.css.map */

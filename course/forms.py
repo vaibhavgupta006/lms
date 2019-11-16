@@ -16,8 +16,12 @@ class CourseCreationForm(forms.ModelForm):
 
     def clean(self):
         courseDescription = self.cleaned_data.get('description')
+        image = self.cleaned_data.get('image')
 
         if not courseDescription:
             self.cleaned_data['description'] = 'No description provide by teacher'
+
+        if not image:
+            raise forms.ValidationError({"image": "This field is required"})
 
         return super().clean()

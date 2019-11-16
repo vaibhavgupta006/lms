@@ -75,6 +75,26 @@ body {
           align-items: center;
           cursor: pointer;
         }
+        &.nested-file {
+          width: 40px;
+          height: 40px;
+          border: 1px dashed rgb(100, 100, 100);
+          border-radius: 5px;
+          background-color: transparent;
+          justify-content: center;
+          margin-top: 3px;
+          i {
+            color: rgb(100, 100, 100);
+          }
+          img {
+            height: 40px;
+            width: 40px;
+            border-radius: 5px;
+          }
+          &.image-selected {
+            border-width: 0px;
+          }
+        }
       }
       .errorlist {
         margin: 10px 0px 10px 0px;
@@ -132,10 +152,11 @@ body {
         border-radius: 5px;
         outline: none;
         padding: 10px;
-        font-size: 17px;
-        font-weight: 500;
+        font-size: 16px;
+        font-weight: 400;
         resize: none;
         transition: all 200ms ease-in-out;
+        font-family: "Noto Sans JP", sans-serif;
         &:focus {
           border-width: 2px;
           border-color: #4229b3;

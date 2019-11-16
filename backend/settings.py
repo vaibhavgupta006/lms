@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'dashboard',
     'assignment',
     'ui_components',
+    'question',
 ]
 
 MIDDLEWARE = [

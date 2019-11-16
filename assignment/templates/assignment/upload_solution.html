@@ -5,6 +5,10 @@
   Submit assignment
 {% endblock title %}
 
+{% block form_static %}
+  <link rel="stylesheet" href="{% static 'assignment/media.css' %}">
+{% endblock form_static %}
+
 {% block heading %}
   Submit assignment
 {% endblock heading %}
@@ -32,6 +36,20 @@
     {% for form in formset %}
     {{ form.non_field_errors }}
     <p class='text'><p style='color:blue;'> Question:</p>{{ form.question.question }}</p>
+    <div class='media'>
+      {% for media in form.question.media.all  %}
+        {% if media.name %}
+          <div>
+            <img src="{{ media.file.url }}" alt="{{ media.name }}">
+            <p>{{ media.name }}</p>
+          </div>
+        {% else %}
+          <div>
+            <img src="{{ media.file.url }}">
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
     {{form.solution.label_tag}}
     {{ form.solution.errors }}
     <label class='file' for="{{ form.solution.id_for_label }}"> <p>Choose file</p>{{ form.instance.solution }}</label>
