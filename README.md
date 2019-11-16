@@ -10,7 +10,7 @@ small implementation of learning management system to manage student assignments
 # view course
 ![](https://github.com/planetred-cc/lms/blob/master/sample_images/Screenshot%20from%202019-11-16%2021-14-22.png)
 
-# enroll to a course
+# enroll into a course
 ![](https://github.com/planetred-cc/lms/blob/master/sample_images/Screenshot%20from%202019-11-16%2021-28-29.png)
 
 # create assignment
