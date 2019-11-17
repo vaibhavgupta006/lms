@@ -9,6 +9,11 @@
   color: grey;
 }
 
+.list_item p span {
+  margin-left: 10px;
+  color: grey;
+}
+
 .list_item a {
   text-decoration: none;
 }
