@@ -1,0 +1,34 @@
+{% extends 'ui_components/list_template_1.html' %}
+{% load static %}
+
+{% block title %}
+  {{ filter_type }}
+{% endblock title %}
+  
+{% block list_static %}
+  <link rel="stylesheet" href="{% static 'assignment/list.css' %}">
+{% endblock list_static %}
+
+{% block heading %}
+  {{ filter_type }}
+{% endblock heading %}
+
+{% block breadcrumbs %}
+  <li><a href="{% url 'dashboard:home' %}">Home</a></li>
+  <li>></li>
+{% endblock breadcrumbs %}
+
+{% block list %}        
+  {% for assignment in object_list %}
+    <div class='list_item' >
+      <p class='item-heading'>{{ assignment.name|capfirst }}</p>
+      <p class='description'>{{ assignment.description|capfirst }}</p>
+      <div class='action'>
+        <a href="{% url 'assignment:upload-solution' course_id=assignment.course.id course_type='enrolled-courses' assignment_id=assignment.id %}" class='btn'>Submit</a>
+        <a href="{% url 'assignment:detail' course_id=assignment.course.id course_type='enrolled-courses' assignment_id=assignment.id %}" class='btn'>View</a>
+      </div>
+    </div>
+    <hr style='border: .5px dashed rgb(200,200,200); margin:20px 0 40px 0;'>
+  {% endfor %}
+{% endblock list %}  
+</html>

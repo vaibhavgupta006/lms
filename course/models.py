@@ -25,6 +25,8 @@ class Course(models.Model):
     )
     description = models.CharField(
         max_length=1000,
+        null=False,
+        blank=False,
         default='No description provide by teacher'
     )
     image = models.ImageField(

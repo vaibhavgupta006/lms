@@ -1,0 +1,23 @@
+.media {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  margin-top: 10px;
+  div {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    img {
+      width: 100%;
+    }
+    p {
+      font-family: "Noto Sans JP", sans-serif;
+      color: rgb(58, 58, 58);
+      font-size: 14px;
+    }
+  }
+}

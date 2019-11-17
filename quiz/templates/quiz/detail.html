@@ -1,0 +1,85 @@
+{% extends 'ui_components/detail_template_1.html' %}
+{% load static %}
+
+{% block title %}
+  Quiz | {{object.name}}
+{% endblock title %}
+
+{% block static_detail %}
+  <link rel="stylesheet" href="{% static 'quiz/media.css' %}">
+{% endblock static_detail %}
+
+{% block heading %}
+  {{ object.name|capfirst }}
+{% endblock heading %}
+
+{% block breadcrumbs %}
+      <li><a href="{% url 'dashboard:home' %}">Home</a></li>
+      <li>></li>
+      <li><a href="{% url 'course:list' course_type=course_type %}">{{course_type|capfirst}}</a></li>
+      <li>></li>
+      <li><a href="{% url 'course:detail' course_type=course_type id=object.course.id %}">Course</a></li>
+      <li>></li>
+      <li><a href="{% url 'quiz:all' course_type=course_type course_id=object.course.id %}">All quizzes</a></li>
+      <li>></li>
+{% endblock breadcrumbs %}
+
+{% block sub-info %}
+  {% if expired %}
+    <p style='color:red;'>Quiz date:  {{ object.quiz_date }}</p>
+    <p style='color:red;'>Time:  {{ object.start_time }} - {{ object.end_time }}</p>
+  {% else %}
+    <p>Quiz date:  {{ object.quiz_date }}</p>
+    <p>Time:  {{ object.start_time }} - {{ object.end_time }}</p>
+  {% endif %}
+  <p>Created on:  {{ object.date_created.date }} </p>
+  <p>Questions: {{ question_count }}</p>
+{% endblock sub-info %}
+
+{% block actions %}
+  {% if is_tutor %}
+    {% include 'quiz/tutor_actions.html' %}
+  {% elif is_student %}
+    {% include 'quiz/student_actions.html' %}
+  {% endif %}
+{% endblock actions %}
+
+{% block detail %}
+  <div class='detail primary'>
+    <p class='detail-heading' >About this quiz :</p>
+    <p class='detail-content'>{{ object.description|capfirst }}</p>
+  </div>
+  {% if not is_tutor %}
+    {% if expired %}
+        {% include 'ui_components/detail_btn_primary.html' with btn_text='Expired' btn_class='dead' btn_icon='send' %}
+    {% elif ongoing %}
+        {% include 'ui_components/detail_btn_primary.html' with btn_text='Submit' btn_icon='send' btn_onclick='location.href="submit"' %}
+    {% elif locked %}
+        {% include 'ui_components/detail_btn_primary.html' with btn_text='Locked' btn_class='dead' btn_icon='lock' %}
+    {% endif %}
+  {% endif %}
+  {% if is_tutor %}
+    <div class='detail secondary'>
+        <p class='detail-heading'>Questions:</p>
+        {% for question in questions %}
+            <p class='detail-content'>{{question.question|capfirst}}</p>
+            <div class='media'>
+            {% for media in question.media.all  %}
+                {% if media.name %}
+                <div>
+                    <img src="{{ media.file.url }}" alt="{{ media.name }}">
+                    <p>{{ media.name }}</p>
+                </div>
+                {% else %}
+                <div>
+                    <img src="{{ media.file.url }}">
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+            <hr style='border: .5px dashed rgb(200,200,200); margin:40px 0 40px 0;'>
+        {% endfor %}
+    </div>
+  {% endif %}
+  
+{% endblock detail %}

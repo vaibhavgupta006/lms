@@ -8,14 +8,7 @@ from django.views.generic import (
     FormView,
     UpdateView,
 )
-from .forms import (
-    AssignmentCreationForm,
-    # QuestionCreationForm,
-    # UploadSolutionForm,
-    # UploadSolutionFormset,
-    # QuestionMediaForm,
-    # QuestionCreationFormset
-)
+from .forms import AssignmentCreationForm
 
 from question.forms import (
     UploadSolutionForm,
@@ -44,20 +37,19 @@ class CreateAssignmentView(CreateView):
 
     def check_validity(self, request=None):
         request = self.request if request == None else request
-        courseId = self.kwargs.get('course_id')
-
-        if self.kwargs.get('course_type') != 'my-courses':
-            raise Http404
+        course_id = self.kwargs.get('course_id')
 
         try:
-            course = request.user.hosted_courses.get(id=courseId)
+            course = request.user.hosted_courses.get(id=course_id)
+            if self.kwargs.get('course_type') != 'my-courses':
+                raise Http404
         except ObjectDoesNotExist:
             raise Http404
 
         return course
 
     def get(self, request, *args, **kwargs):
-        course = self.check_validity(request)
+        self.check_validity(request)
         return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -115,81 +107,6 @@ class AssignmentDetailView(DetailView):
         context['deadline_expired'] = True if datetime.now(
         ).date() > context['object'].deadline else False
         return context
-
-
-# class CreateQuestionView(FormView):
-#     template_name = 'assignment/create_questions.html'
-
-#     def get(self, request, *args, **kwargs):
-#         if self.kwargs.get('course_type') != 'my-courses':
-#             raise Http404
-#         else:
-#             return super().get(request, *args, **kwargs)
-
-#     def get_instance(self, request=None):
-#         request = self.request if request is None else request
-#         courseId = self.kwargs.get('course_id')
-#         assignmentId = self.kwargs.get('assignment_id')
-
-#         try:
-#             course = request.user.hosted_courses.get(id=courseId)
-#             assignment = course.assignments.get(id=assignmentId)
-#         except ObjectDoesNotExist:
-#             raise Http404
-
-#         return assignment
-
-#     def get_form(self):
-#         FormSet = inlineformset_factory(
-#             Assignment, Question,
-#             form=QuestionCreationForm,
-#             extra=1,
-#             can_delete=False,
-#             formset=QuestionCreationFormset
-#         )
-#         form = FormSet(
-#             self.request.POST or None,
-#             instance=self.get_instance()
-#         )
-#         return form
-
-#     def form_valid(self, formset):
-#         # form.save()
-#         question_instances = formset.save()
-#         print(question_instances)
-#         print(formset)
-#         for form, question_instance in zip(formset, question_instances):
-#             # print("fjasdklfkljasdklfjasdkljfkl")
-#             for nested_formset in form:
-#                 if nested_formset.is_valid():
-#                     for nested_form in nested_formset:
-#                         nested_form.question = question_instance
-#                     nested_formset.save()
-
-#         return HttpResponseRedirect(self.get_success_url())
-
-#     def get_success_url(self):
-#         course_id = self.kwargs.get('course_id')
-#         assignment_id = self.kwargs.get('assignment_id')
-#         return reverse('assignment:create-question', kwargs={"course_id": course_id, "assignment_id": assignment_id, 'course_type': "my-courses"})
-
-#     def get_context_data(self, **kwargs):
-#         kwargs = super().get_context_data(**kwargs)
-#         kwargs['formset'] = kwargs.pop('form')
-#         kwargs['course_id'] = self.kwargs.get('course_id')
-#         kwargs['assignment_id'] = self.kwargs.get('assignment_id')
-#         return kwargs
-
-#     def get_success_url(self, *args, **kwargs):
-#         course_id = self.kwargs.get("course_id")
-#         course_type = self.kwargs.get('course_type')
-#         assignment_id = self.kwargs.get('assignment_id')
-#         kwargs = {
-#             "course_id": course_id,
-#             'course_type': course_type,
-#             'assignment_id': assignment_id
-#         }
-#         return reverse_lazy('assignment:detail', kwargs=kwargs)
 
 
 class AssignmentListView(ListView):
@@ -443,3 +360,16 @@ class AllSubmissionPDFView(SubmissionView):
         merger.write(os.path.join(input_dir, 'all_submission.pdf'))
         merger.close()
         return HttpResponseRedirect(f'{base_url}/all_submission.pdf')
+
+
+class RecentAssignmentView(ListView):
+    template_name = 'assignment/list_filter.html'
+
+    def get_queryset(self):
+        enrolled_courses = self.request.user.enrolled_courses.all().values('course')
+        return Assignment.objects.filter(course__id__in=enrolled_courses).order_by('-date_created')
+
+    def get_context_data(self, *args, object_list=None, **kwargs):
+        context = super().get_context_data(*args, object_list=object_list, **kwargs)
+        context['filter_type'] = "Recent assignments"
+        return context

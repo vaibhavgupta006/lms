@@ -1,0 +1,60 @@
+.list_item p {
+  margin: 10px;
+  width: 100%;
+}
+
+.list_item p.description {
+  margin: 15px;
+  font-size: 14px;
+  color: grey;
+}
+
+.list_item a {
+  text-decoration: none;
+}
+
+.list_item .action {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-flow: row-reverse;
+          flex-flow: row-reverse;
+  margin-top: 18px;
+}
+
+.list_item .action .btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border: none;
+  border-radius: 5px;
+  background-color: #4c2fc9;
+  color: white;
+  height: 35px;
+  width: 80px;
+  margin: 10px;
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  cursor: pointer;
+  -webkit-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+}
+
+.list_item .action .btn:hover {
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+/*# sourceMappingURL=list.css.map */

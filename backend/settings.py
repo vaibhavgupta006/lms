@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'assignment',
     'ui_components',
     'question',
+    'quiz',
+    'quiz_question',
 ]
 
 MIDDLEWARE = [

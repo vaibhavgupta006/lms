@@ -1,0 +1,40 @@
+.list_item {
+  p {
+    margin: 10px;
+    width: 100%;
+    &.description {
+      margin: 15px;
+      font-size: 14px;
+      color: grey;
+    }
+  }
+  a {
+    text-decoration: none;
+  }
+  .action {
+    display: flex;
+    flex-flow: row-reverse;
+    margin-top: 18px;
+    .btn {
+      display: flex;
+      flex-flow: row;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      border-radius: 5px;
+      background-color: #4c2fc9;
+      color: white;
+      height: 35px;
+      width: 80px;
+      margin: 10px;
+      font-family: "Noto Sans JP", sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 250ms ease-in-out;
+      &:hover {
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+}
