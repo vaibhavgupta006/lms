@@ -23,5 +23,12 @@ class Quiz(models.Model):
     def __str__(self):
         return f'course {self.course.id} quiz {self.id}'
 
-    # def get_absolute_url(self):
-    #     return reverse("model_detail", kwargs={"pk": self.pk})
+    def get_absolute_url(self):
+        return reverse(
+            'quiz_question:create-quiz-question',
+            kwargs={
+                'course_type': 'my-courses',
+                'course_id': self.course.id,
+                'quiz_id': self.id
+            }
+        )

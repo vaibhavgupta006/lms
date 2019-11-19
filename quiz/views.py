@@ -108,9 +108,12 @@ class QuizDetailView(DetailView):
             return False
 
     def is_expired(self, object):
-        current_datetime = datetime.now()
+        current_datetime = datetime.utcnow()
         if current_datetime.date() > object.quiz_date:
             return True
+        print(current_datetime.time() > object.end_time)
+        print(object.end_time)
+        print(current_datetime.time())
         if current_datetime.date() == object.quiz_date and current_datetime.time() > object.end_time:
             return True
         return False
@@ -118,9 +121,9 @@ class QuizDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         course_type = self.kwargs.get('course_type')
-        # questions = context.get('object').questions.all()
-        # context['questions'] = questions
-        # context['question_count'] = questions.count()
+        questions = context.get('object').questions.all()
+        context['questions'] = questions
+        context['question_count'] = questions.count()
         context['is_tutor'] = True if self.kwargs.get(
             'course_type') == 'my-courses' else False
         context['is_student'] = True if self.kwargs.get(

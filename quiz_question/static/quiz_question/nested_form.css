@@ -1,0 +1,34 @@
+.form-nested {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column wrap;
+          flex-flow: column wrap;
+  margin-left: 40px;
+}
+
+.form-nested label {
+  font-size: 14px !important;
+  margin-bottom: 2px !important;
+  margin-top: 15px !important;
+}
+
+.form-nested textarea {
+  height: 45px;
+  font-size: 15px !important;
+}
+
+.dynamic-formset-nested-form {
+  border: none !important;
+  width: 100% !important;
+  font-size: 13px !important;
+  margin-left: 5px !important;
+}
+
+.dynamic-formset-nested-form i {
+  padding: 2px 5px 0 0 !important;
+  font-size: 16px !important;
+}
+/*# sourceMappingURL=nested_form.css.map */

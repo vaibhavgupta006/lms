@@ -63,7 +63,8 @@
         <p class='detail-heading'>Questions:</p>
         {% for question in questions %}
             <p class='detail-content'>{{question.question|capfirst}}</p>
-            <div class='media'>
+            {% if question.media.all|length > 0 %}
+              <div class='media'>
             {% for media in question.media.all  %}
                 {% if media.name %}
                 <div>
@@ -77,6 +78,7 @@
                 {% endif %}
             {% endfor %}
             </div>
+            {% endif %}
             <hr style='border: .5px dashed rgb(200,200,200); margin:40px 0 40px 0;'>
         {% endfor %}
     </div>

@@ -36,6 +36,10 @@ urlpatterns = [
         r'courses/(?P<course_type>(my-courses))/',
         include('question.urls')
     ),
+    url(
+        r'courses/(?P<course_type>(my-courses))/',
+        include('quiz_question.urls')
+    ),
 
 ]
 

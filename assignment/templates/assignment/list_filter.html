@@ -27,6 +27,7 @@
         <a href="{% url 'assignment:upload-solution' course_id=assignment.course.id course_type='enrolled-courses' assignment_id=assignment.id %}" class='btn'>Submit</a>
         <a href="{% url 'assignment:detail' course_id=assignment.course.id course_type='enrolled-courses' assignment_id=assignment.id %}" class='btn'>View</a>
       </div>
+      <hr style='border: .5px dashed rgb(200,200,200); margin:20px 0 40px 0;'>
   {% endfor %}
 {% endblock list %}  
 </html>

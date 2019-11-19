@@ -1,0 +1,72 @@
+{% extends 'ui_components/form_template_1.html' %}
+{% load static %}
+
+{% block form_static %}  
+  <link rel="stylesheet" href="{% static "quiz_question/nested_form.css" %}">
+{% endblock form_static %}
+
+{% block title %}
+  Quiz | Add question
+{% endblock title %}
+
+{% block heading %}
+  Add questions
+{% endblock heading %}
+
+{% block breadcrumbs %}
+  <li><a href="{% url 'dashboard:home' %}">Home</a></li>
+  <li>></li>
+  <li><a href="{% url 'course:list' course_type='my-courses' %}">My-courses</a></li>
+  <li>></li><li><a href="{% url 'course:detail' course_type='my-courses' id=course_id %}">Course</a></li>
+  <li>></li>
+  <li><a href="{% url 'quiz:all' course_type='my-courses' course_id=course_id %}">All quizzes</a></li>
+  <li>></li>
+  <li><a href="{% url 'quiz:detail' course_type='my-courses' quiz_id=quiz_id course_id=course_id %}">Quiz</a></li>
+  <li>></li>
+{% endblock breadcrumbs %}
+
+{% block form_enctype %}
+  enctype='multipart/form-data'
+{% endblock form_enctype  %}
+
+{% block form %}
+  {% csrf_token %}
+  {{ formset.management_form }}
+  {% for form in formset %}
+    <div prefix = {{ form.prefix }} class='form' style='display:flex; flex-flow:column;'>
+    {{ form }}
+    {% for nested_formset in form.nested_forms %}
+      <div class='nested-formset' prefix={{ nested_formset.prefix }}>
+        <div style='display:hidden;' class='form-nested-management-form'>
+          {{ nested_formset.management_form }}
+        </div>
+        <p style='font-size: 15px;'>Options:</p>
+        <div class='form-nested-holder' style='display:flex; flex-flow:column wrap;'>
+          {% for form_nested in nested_formset %}
+            {{ form.non_field_errors }}
+            <div class='form-nested' prefix={{ form_nested.prefix }}>
+              {{ form_nested.file.errors }}
+              {% comment %} {{ form_nested.value.label_tag }} {% endcomment %}
+              {{ form_nested.value.errors }}
+              {{ form_nested.value }}
+              {% for hidden_field in form_nested.hidden_fields %}
+                {{ hidden_field }}
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+        <button class='icon-button dynamic-formset-nested-form' form-model='questions' >
+              <i class="material-icons" style="font-size:18px">add</i>
+              Add option
+            </button>
+      </div>
+    {% endfor %}
+    <hr style='border: .5px dashed rgb(200,200,200); margin:20px 0 20px 0;'>
+    </div>
+  {% endfor %}
+  <button class='icon-button dynamic-formset' form-model='questions' >
+    <i class="material-icons" style="font-size:18px">add</i>
+    Add question
+  </button>
+  <input type="submit" />
+{% endblock form %}

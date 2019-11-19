@@ -3,11 +3,13 @@ $(document).ready(function() {
   let textareas = $("textarea");
   let fileUpload = $("input:file");
   let formsets = $(".dynamic-formset");
+  let nested_formsets = $(".dynamic-formset-nested-form");
 
   $.each(dropdown, showContent);
   $.each(textareas, bindAutoIncrement);
   $.each(fileUpload, bindGetFileName);
   $.each(formsets, bindAddForm);
+  $.each(nested_formsets, bindAddNestedFrom);
 });
 
 let bindAutoIncrement = function(index, textarea) {
@@ -23,6 +25,18 @@ let bindAddForm = function(index, formset) {
 
   $(formset).click(function(e) {
     addNewForm(e, null);
+  });
+};
+
+let bindAddNestedFrom = function(index, formset) {
+  $(formset).click(function(e) {
+    e.preventDefault();
+    form = $(e.target)
+      .siblings(".form-nested-holder")
+      .children(".form-nested")
+      .last();
+    console.log(form);
+    addNewForm(e, form);
   });
 };
 
@@ -95,6 +109,11 @@ let change_nested_form = function(nested_formset) {
   });
 
   $.each(nested_form.children("input"), function(index, input) {
+    $(input).val("");
+    replaceAttrs(input, "name", prefix, new_prefix);
+    replaceAttrs(input, "id", prefix, new_prefix);
+  });
+  $.each(nested_form.children("textarea"), function(index, input) {
     $(input).val("");
     replaceAttrs(input, "name", prefix, new_prefix);
     replaceAttrs(input, "id", prefix, new_prefix);

@@ -1,5 +1,6 @@
 from django.db import models
 from quiz.models import Quiz
+from authentication.models import User
 
 import os
 
@@ -41,3 +42,9 @@ class Media(models.Model):
     file = models.FileField(
         upload_to=get_question_media_location, null=True, blank=True
     )
+
+
+class Submission(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    option_selected = models.ForeignKey(Option, on_delete=models.CASCADE)

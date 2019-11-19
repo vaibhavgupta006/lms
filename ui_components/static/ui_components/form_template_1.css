@@ -204,7 +204,8 @@ body .content form textarea:focus {
 }
 
 body .content form button {
-  border: 1px dashed grey;
+  border: none;
+  font-size: 16px;
   height: 6.5vh;
   margin: 10px 0 0 0;
   border-radius: 5px;
@@ -236,6 +237,6 @@ body .content form button.icon-button {
 }
 
 body .content form button.icon-button i {
-  padding: 0 5px 0 5px;
+  padding: 4px 5px 2px 5px;
 }
 /*# sourceMappingURL=form_template_1.css.map */

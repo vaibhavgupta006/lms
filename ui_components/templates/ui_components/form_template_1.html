@@ -1,25 +1,21 @@
-{% extends 'ui_components/base.html' %}
-{% load static %}
-
+{% extends 'ui_components/base.html' %} 
+{% load static %} 
 {% block static %}
-  <link rel="stylesheet" href="{% static 'ui_components/form_template_1.css' %}">
-  {% block form_static %}{% endblock form_static %}
-{% endblock static %}
+  <link rel="stylesheet" href="{% static 'ui_components/form_template_1.css' %}" />
+  {% block form_static %}{% endblock form_static %} 
+{% endblock static %} 
 
 {% block body %}
-  <div class='header'>
+  <div class="header">
     <h1>
-      <ul class='breadcrumb'>
-        {% block breadcrumbs %}
-        {% endblock breadcrumbs %}  
+      <ul class="breadcrumb">
+        {% block breadcrumbs %} {% endblock breadcrumbs %}
       </ul>
-      {% block heading %}
-      {% endblock heading %}
+      {% block heading %} {% endblock heading %}
     </h1>
   </div>
-  <form method="POST" class='form' {% block form_enctype %}{% endblock form_enctype %} >
-    {% block form %}
-    {% endblock form %}
+  <form method="POST" class="form" {% block form_enctype %}{% endblock form_enctype %} >
+    {% block form %} {% endblock form %}
   </form>
-    
+
 {% endblock body %}

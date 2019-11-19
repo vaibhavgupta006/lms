@@ -25,7 +25,7 @@ from .forms import (
 # Create your views here.
 
 
-class CreateAssignmentQuestionView(FormView):
+class CreateQuestionView(FormView):
     template_name = 'assignment/create_questions.html'
 
     def get_instance(self, request=None):
