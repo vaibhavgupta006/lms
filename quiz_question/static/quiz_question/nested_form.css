@@ -2,11 +2,11 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-flow: column wrap;
-          flex-flow: column wrap;
-  margin-left: 40px;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  width: 100%;
 }
 
 .form-nested label {
@@ -15,7 +15,12 @@
   margin-top: 15px !important;
 }
 
+.form-nested input {
+  margin-right: 20px !important;
+}
+
 .form-nested textarea {
+  width: 95%;
   height: 45px;
   font-size: 15px !important;
 }

@@ -1,0 +1,58 @@
+{% extends 'ui_components/form_template_1.html' %}
+{% load static %}
+
+{% block title %}
+  Submit quiz
+{% endblock title %}
+
+{% block form_static %}
+  <link rel="stylesheet" href="{% static 'quiz/media.css' %}">
+  <link rel="stylesheet" href="{% static 'quiz/options.css' %}">
+  <script src="{% static 'quiz/add_custom_radio.js' %}"></script>
+{% endblock form_static %}
+
+{% block heading %}
+  Submit quiz
+{% endblock heading %}
+
+{% block breadcrumbs %}
+  <li><a href="{% url 'dashboard:home' %}">Home</a></li>
+  <li>></li>
+  <li><a href="{% url 'course:list' course_type=course_type %}">{{course_type|capfirst}}</a></li>
+  <li>></li>
+  </li><li><a href="{% url 'course:detail' course_type=course_type id=course_id %}">Course</a></li>
+  <li>></li>
+  <li><a href="{% url 'quiz:all' course_type=course_type course_id=course_id %}">All quizzes</a></li>
+  <li>></li>
+  <li><a href="{% url 'quiz:detail' course_type=course_type quiz_id=quiz_id course_id=course_id %}">Quiz</a></li>
+  <li>></li>
+{% endblock breadcrumbs %}
+
+{% block form %}
+    {% csrf_token %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+    {{ form.non_field_errors }}
+    <p class='text'><p style='color:#4c2fc9;'>Question</p>{{ form.question.question }}</p>
+    {% if question.media.all|length > 0 %}
+        <div class='media'>
+        {% for media in question.media.all  %}
+            {% if media.name %}
+            <div>
+                <img src="{{ media.file.url }}" alt="{{ media.name }}">
+                <p>{{ media.name }}</p>
+            </div>
+            {% else %}
+            <div>
+                <img src="{{ media.file.url }}">
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    {% endif %}
+    {{ form.option_selected }}
+    {{ form.option_selected.errors }}
+    <div class='hr' ></div>
+  {% endfor %}
+    <input type="submit" value='Submit'>
+{% endblock form %}

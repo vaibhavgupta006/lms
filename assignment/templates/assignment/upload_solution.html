@@ -36,7 +36,8 @@
     {% for form in formset %}
     {{ form.non_field_errors }}
     <p class='text'><p style='color:blue;'> Question:</p>{{ form.question.question }}</p>
-    <div class='media'>
+    {% if form.question.media.all %}
+      <div class='media'>
       {% for media in form.question.media.all  %}
         {% if media.name %}
           <div>
@@ -48,8 +49,9 @@
             <img src="{{ media.file.url }}">
           </div>
         {% endif %}
-      {% endfor %}
-    </div>
+        {% endfor %}
+      </div>
+    {% endif %}
     {{form.solution.label_tag}}
     {{ form.solution.errors }}
     <label class='file' for="{{ form.solution.id_for_label }}"> <p>Choose file</p>{{ form.instance.solution }}</label>

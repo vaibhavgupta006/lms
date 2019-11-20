@@ -3,14 +3,18 @@ from django.views.generic import (
     CreateView,
     ListView,
     DetailView,
-    UpdateView
+    UpdateView,
+    FormView
 )
 from .forms import QuizCreationForm
+from quiz_question.forms import SubmissionForm, SubmissionFormSet
 
+from django.forms import formset_factory
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from datetime import datetime
 from django.shortcuts import reverse
+from .models import Quiz
 # Create your views here.
 
 
@@ -168,3 +172,74 @@ class QuizUpdateView(UpdateView):
         context['course_id'] = self.kwargs.get('course_id')
         context['quiz_id'] = self.kwargs.get("quiz_id")
         return context
+
+
+class QuizSubmissionView(FormView):
+    template_name = 'quiz/upload_solution.html'
+
+    def get(self, request, *args, **kwargs):
+        try:
+            quiz_id = self.kwargs.get('quiz_id')
+            quiz = Quiz.objects.get(id=quiz_id)
+        except ObjectDoesNotExist:
+            raise Http404
+        # if datetime.now().date() > quiz.deadline:
+        #     return HttpResponseRedirect(
+        #         reverse('assignment:detail', kwargs=self.kwargs)
+        #     )
+        # else:
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        course_id = self.kwargs.get('course_id')
+        quiz_id = self.kwargs.get('quiz_id')
+        course_type = self.kwargs.get('course_type')
+        try:
+            if course_type == 'my-courses':
+                course = self.request.user.hosted_courses.get(id=course_id)
+            elif course_type == 'enrolled-courses':
+                course = self.request.user.enrolled_courses.get(
+                    course__id=course_id
+                ).course
+            quiz = course.quizzes.get(id=quiz_id)
+            return quiz.questions.all()
+        except ObjectDoesNotExist:
+            raise Http404
+
+    def get_form(self, form_class=None):
+        queryset = self.get_queryset()
+        num = len(queryset)
+        FormSet = formset_factory(
+            SubmissionForm,
+            min_num=num,
+            max_num=num,
+            extra=0,
+            formset=SubmissionFormSet,
+            can_delete=False,
+        )
+        form = FormSet(
+            self.request.POST or None,
+            self.request.FILES or None,
+            form_kwarg_queryset=queryset,
+            user=self.request.user
+        )
+        return form
+
+    def form_valid(self, forms):
+        for form in forms:
+            form.instance.question = form.question
+            form.instance.user = self.request.user
+            form.save()
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('quiz:detail', kwargs=self.kwargs)
+
+    def get_context_data(self, **kwargs):
+        kwargs = super().get_context_data(**kwargs)
+        kwargs['formset'] = kwargs.pop('form')
+        kwargs['course_type'] = self.kwargs.get('course_type')
+        kwargs['course_id'] = self.kwargs.get('course_id')
+        kwargs['quiz_id'] = self.kwargs.get('quiz_id')
+        return kwargs

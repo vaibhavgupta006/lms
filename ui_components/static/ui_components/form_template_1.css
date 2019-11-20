@@ -20,8 +20,8 @@ body .content .header h1 {
   margin: 0;
   padding: 30px;
   font-family: "Noto Sans JP", sans-serif;
-  font-weight: 700;
-  font-size: 30px;
+  font-weight: 400;
+  font-size: 35px;
 }
 
 body .content form {
@@ -140,7 +140,8 @@ body .content form input {
   border-radius: 5px;
   outline: none;
   padding: 0 10px 0 10px;
-  font-size: 16px;
+  font-size: 17px;
+  font-weight: 300;
   -webkit-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
   font-family: "Noto Sans JP", sans-serif;
@@ -196,6 +197,8 @@ body .content form textarea {
   -webkit-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
   font-family: "Noto Sans JP", sans-serif;
+  font-weight: 300;
+  font-size: 17px;
 }
 
 body .content form textarea:focus {

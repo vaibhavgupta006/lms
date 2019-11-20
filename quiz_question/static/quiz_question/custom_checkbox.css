@@ -1,0 +1,55 @@
+.form-nested {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-flow: row-reverse;
+          flex-flow: row-reverse;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.form-nested .checkbox {
+  height: 30px;
+  width: 30px;
+  margin-right: 15px;
+  margin: 0 15px 0 0 !important;
+  background-color: #f3f4f5;
+  pointer-events: all !important;
+  cursor: pointer;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+}
+
+.form-nested .checkbox i {
+  font-weight: bold;
+  display: none;
+  color: white;
+  font-size: 18px;
+  margin-right: 3px;
+}
+
+.form-nested input {
+  display: none;
+}
+
+.form-nested input:checked ~ .checkbox {
+  background-color: blue;
+}
+
+.form-nested input:checked ~ .checkbox i {
+  display: block;
+}
+/*# sourceMappingURL=custom_checkbox.css.map */

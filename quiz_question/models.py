@@ -47,4 +47,6 @@ class Media(models.Model):
 class Submission(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    option_selected = models.ForeignKey(Option, on_delete=models.CASCADE)
+    option_selected = models.ForeignKey(
+        Option, on_delete=models.CASCADE, null=True
+    )

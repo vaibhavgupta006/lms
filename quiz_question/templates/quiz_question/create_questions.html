@@ -3,6 +3,8 @@
 
 {% block form_static %}  
   <link rel="stylesheet" href="{% static "quiz_question/nested_form.css" %}">
+  <link rel="stylesheet" href="{% static "quiz_question/custom_checkbox.css" %}">
+  <script src="{% static 'quiz_question/add_custom_checkbox.js' %}"></script>
 {% endblock form_static %}
 
 {% block title %}
@@ -45,8 +47,8 @@
           {% for form_nested in nested_formset %}
             {{ form.non_field_errors }}
             <div class='form-nested' prefix={{ form_nested.prefix }}>
-              {{ form_nested.file.errors }}
-              {% comment %} {{ form_nested.value.label_tag }} {% endcomment %}
+              {{ form_nested.correct_choice.errors }}
+              {{ form_nested.correct_choice }}
               {{ form_nested.value.errors }}
               {{ form_nested.value }}
               {% for hidden_field in form_nested.hidden_fields %}
