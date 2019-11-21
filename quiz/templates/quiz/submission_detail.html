@@ -1,0 +1,93 @@
+{% extends 'ui_components/detail_template_1.html' %}
+{% load static %}
+
+{% block title %}
+  Quiz submission | {{object.name}}
+{% endblock title %}
+
+{% block static_detail %}
+  <link rel="stylesheet" href="{% static 'quiz/media.css' %}">
+  <link rel="stylesheet" href="{% static 'quiz/submission_detail.css' %}">
+{% endblock static_detail %}
+
+{% block heading %}
+  {{ submission.user.first_name|capfirst }} {{ submission.user.last_name|capfirst }}
+{% endblock heading %}
+
+{% block breadcrumbs %}
+      <li><a href="{% url 'dashboard:home' %}">Home</a></li>
+      <li>></li>
+      <li><a href="{% url 'course:list' course_type=course_type %}">{{course_type|capfirst}}</a></li>
+      <li>></li>
+      <li><a href="{% url 'course:detail' course_type=course_type id=submission.quiz.course.id %}">Course</a></li>
+      <li>></li>
+      <li><a href="{% url 'quiz:all' course_type=course_type course_id=submission.quiz.course.id %}">All quizzes</a></li>
+      <li>></li>
+      <li><a href="{% url 'quiz:detail' course_type=course_type course_id=submission.quiz.course.id quiz_id=submission.quiz.id %}">Quiz</a></li>
+      <li>></li>
+      {% if is_tutor %}
+        <li><a href="{% url 'quiz:submissions' course_type=course_type course_id=submission.quiz.course.id quiz_id=submission.quiz.id %}">All submissions</a></li>
+        <li>></li>
+      {% endif %}
+{% endblock breadcrumbs %}
+
+{% block sub-info %}
+  {% comment %} {% if expired %}
+    <p style='color:red;'>Quiz date:  {{ object.quiz_date }}</p>
+    <p style='color:red;'>Time:  {{ object.start_time }} - {{ object.end_time }}</p>
+  {% else %}
+    <p>Quiz date:  {{ object.quiz_date }}</p>
+    <p>Time:  {{ object.start_time }} - {{ object.end_time }}</p>
+  {% endif %} {% endcomment %}
+  <p style='color:#4229b3; padding-bottom: 10px; font-weight: 400; font-size: 14px;'>Grade:  {{ submission.grade }}/{{ submission.quiz.total_grade }} </p>
+  <p style='font-weight: 300; font-size: 14px;'>Submitted on: {{ submission.date_created.date }}</p>
+  <p style='font-weight: 300; font-size: 14px;'>Submission time: {{ submission.date_created.time }}</p>
+{% endblock sub-info %}
+
+{% block actions %}
+  {% comment %} {% if is_tutor %}
+    {% include 'quiz/tutor_actions.html' %}
+  {% elif is_student %}
+    {% include 'quiz/student_actions.html' %}
+  {% endif %} {% endcomment %}
+{% endblock actions %}
+
+{% block detail %}
+  <div class='detail primary'>
+    <p class='detail-heading' >Your responses :</p>
+  </div>
+  {% comment %} {% if not is_tutor %}
+    {% if expired %}
+        {% include 'ui_components/detail_btn_primary.html' with btn_text='Expired' btn_class='dead' btn_icon='send' %}
+    {% elif ongoing %}
+        {% include 'ui_components/detail_btn_primary.html' with btn_text='Submit' btn_icon='send' btn_onclick='location.href="submit"' %}
+    {% elif locked %}
+        {% include 'ui_components/detail_btn_primary.html' with btn_text='Locked' btn_class='dead' btn_icon='lock' %}
+    {% endif %}
+  {% endif %} {% endcomment %}
+  {% comment %} {% if is_tutor %} {% endcomment %}
+  <div class='detail secondary'>
+      {% comment %} <p class='detail-heading'>Questions:</p> {% endcomment %}
+      {% for submission_object in object_list %}
+          <p class='detail-content' style='margin-bottom: 30px; color:#4c2fc9;'>Question</p>
+          <p style='margin-bottom: 50px;' class='detail-content'>{{submission_object.question.question|capfirst}}</p>
+          
+          {% comment %} {% if question.media.all|length > 0 %}
+            <div class='media'> {% endcomment %}
+          {% for option in submission_object.options  %}
+            {% if submission_object.option_selected == option and submission_object.option_selected.correct_choice %}
+              <p class='option correct detail-content'>{{option.value}}</p>
+            {% elif submission_object.option_selected == option and not submission_object.option_selected.correct_choice %}
+              <p class='option incorrect detail-content'>{{option.value}}</p>
+            {% else %}
+              <p class='option detail-content'>{{option.value}}</p>
+            {% endif %}
+          {% endfor %}
+          {% comment %} </div> {% endcomment %}
+          {% comment %} {% endif %} {% endcomment %}
+          <hr style='border: .5px dashed rgb(200,200,200); margin:40px 0 40px 0;'>
+      {% endfor %}
+  </div>
+  {% comment %} {% endif %} {% endcomment %}
+  
+{% endblock detail %}

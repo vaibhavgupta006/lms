@@ -1,6 +1,8 @@
 from django.db import models
 from course.models import Course
 from django.shortcuts import reverse
+from authentication.models import User
+# from quiz_question.models import Submission as QuizQuestionSubmission
 # Create your models here.
 
 
@@ -19,6 +21,7 @@ class Quiz(models.Model):
     quiz_date = models.DateField(blank=False, null=False)
     start_time = models.TimeField(blank=False, null=False)
     end_time = models.TimeField(blank=False, null=False)
+    total_grade = models.IntegerField(default=0, null=False, blank=False)
 
     def __str__(self):
         return f'course {self.course.id} quiz {self.id}'
@@ -32,3 +35,21 @@ class Quiz(models.Model):
                 'quiz_id': self.id
             }
         )
+
+
+class Submission(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='quiz_submissions'
+    )
+    quiz = models.ForeignKey(
+        Quiz,
+        on_delete=models.CASCADE,
+        related_name='submissions'
+    )
+    grade = models.IntegerField(default=0, null=False, blank=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = (('user', 'quiz'),)

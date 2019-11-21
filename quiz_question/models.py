@@ -21,6 +21,11 @@ class Question(models.Model):
         Quiz, on_delete=models.CASCADE, related_name='questions')
     grade = models.IntegerField(null=False, default=1)
 
+    def save(self, *args, **kwargs):
+        self.quiz.total_grade += self.grade
+        self.quiz.save()
+        super().save()
+
     def __str__(self):
         return f'quiz {self.quiz.id} question {self.id}'
 
@@ -45,8 +50,28 @@ class Media(models.Model):
 
 
 class Submission(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    option_selected = models.ForeignKey(
-        Option, on_delete=models.CASCADE, null=True
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='quiz_question_submissions'
     )
+    question = models.ForeignKey(
+        Question,
+        on_delete=models.CASCADE,
+        related_name='submissions'
+    )
+    option_selected = models.ForeignKey(
+        Option,
+        on_delete=models.CASCADE,
+        null=True
+    )
+
+    class Meta:
+        unique_together = (('user', 'question'),)
+
+    def save(self, *args, **kwargs):
+        quiz_submission = self.question.quiz.submissions.get(user=self.user)
+        if self.option_selected.correct_choice:
+            quiz_submission.grade += self.question.grade
+            quiz_submission.save()
+        super().save(*args, **kwargs)

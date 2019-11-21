@@ -52,10 +52,12 @@
   {% if not is_tutor %}
     {% if expired %}
         {% include 'ui_components/detail_btn_primary.html' with btn_text='Expired' btn_class='dead' btn_icon='send' %}
-    {% elif ongoing %}
-        {% include 'ui_components/detail_btn_primary.html' with btn_text='Submit' btn_icon='send' btn_onclick='location.href="submit"' %}
+    {% elif submitted %}
+        {% include 'ui_components/detail_btn_primary.html' with btn_text='Submitted' btn_class='dead' btn_icon='lock' %}
     {% elif locked %}
         {% include 'ui_components/detail_btn_primary.html' with btn_text='Locked' btn_class='dead' btn_icon='lock' %}
+    {% else %}
+        {% include 'ui_components/detail_btn_primary.html' with btn_text='Submit' btn_icon='send' btn_onclick='location.href="submit"' %}
     {% endif %}
   {% endif %}
   {% if is_tutor %}

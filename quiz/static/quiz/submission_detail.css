@@ -1,0 +1,21 @@
+.detail-content {
+  font-weight: 400 !important;
+  font-size: 16px !important;
+}
+
+.option {
+  padding: 10px !important;
+  border-radius: 5px !important;
+  font-weight: 400;
+  font-size: 15px !important;
+  margin: 10px 20px 10px 40px !important;
+}
+
+.option.correct {
+  background-color: #9effa6 !important;
+}
+
+.option.incorrect {
+  background-color: #ff9e9e;
+}
+/*# sourceMappingURL=submission_detail.css.map */

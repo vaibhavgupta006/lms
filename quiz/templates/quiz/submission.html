@@ -1,0 +1,42 @@
+{% extends 'ui_components/list_template_1.html' %}
+{% load static %}
+
+{% block title %}
+  Quiz submissions
+{% endblock title %}
+
+{% block list_static %}
+  <link rel="stylesheet" href="{% static 'quiz/list.css' %}">
+{% endblock list_static %}
+
+{% block heading %}
+  Quiz submissions
+{% endblock heading %}
+
+{% block breadcrumbs %}
+    <li><a href="{% url 'dashboard:home' %}">Home</a></li>
+    <li>></li>
+    <li><a href="{% url 'course:list' course_type=course_type %}">{{course_type|capfirst}}</a></li>
+    <li>></li>
+    <li><a href="{% url 'course:detail' course_type=course_type id=course_id %}">Course</a></li>
+    <li>></li>
+    <li><a href="{% url 'quiz:all' course_type=course_type course_id=course_id %}">All quizzes</a></li>
+    <li>></li>
+    <li><a href="{% url 'quiz:detail' course_type=course_type quiz_id=quiz_id course_id=course_id %}">Quiz</a></li>
+    <li>></li>
+{% endblock breadcrumbs %}
+
+{% block list %}        
+  {% for submission in object_list %}
+    <div class='list_item' >
+      <p class='item-heading'>{{ submission.user.first_name|capfirst }} {{ submission.user.last_name|capfirst }}</p>
+      <p class='description'>Grade achived: {{ submission.grade }}/{{ submission.quiz.total_grade}} </p>
+      <div class='action'>
+        {% comment %} <a href="{{assignment.id}}/submit" class='btn'>Submit</a> {% endcomment %}
+        <a href="{{submission.id}}/detail/" class='btn'>Details</a>
+      </div>
+    </div>
+    <hr style='border: .5px dashed rgb(200,200,200); margin:20px 0 40px 0;'>
+  {% endfor %}
+{% endblock list %}  
+</html>

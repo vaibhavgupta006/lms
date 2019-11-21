@@ -129,7 +129,7 @@ class Submission(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='all_submissions'
+        related_name='assignment_question_submissions'
     )
     question = models.ForeignKey(
         Question,
@@ -144,6 +144,9 @@ class Submission(models.Model):
         null=True
     )
     date_created = models.DateTimeField(auto_now_add=True, null=False)
+
+    class Meta:
+        unique_together = (('user', 'question'),)
 
     def add_pdf_solution(self):
         input_file = self.solution.path
@@ -203,3 +206,6 @@ class Media(models.Model):
     file = models.FileField(
         upload_to=get_question_media_location, null=True, blank=True
     )
+
+    def __str__(self):
+        return f"assignment question {self.question.id} media {self.id}"

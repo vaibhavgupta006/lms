@@ -14,7 +14,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404, HttpResponseRedirect
 from datetime import datetime
 from django.shortcuts import reverse
-from .models import Quiz
+from .models import Quiz, Submission as QuizSubmission
+from quiz_question.models import Submission, Option
+from django.db.models import Q
+from django.db import IntegrityError
 # Create your views here.
 
 
@@ -122,6 +125,14 @@ class QuizDetailView(DetailView):
             return True
         return False
 
+    def submitted(self, object):
+        objects = QuizSubmission.objects.filter(
+            Q(user=self.request.user)
+            &
+            Q(quiz=object)
+        )
+        return True if objects.count() > 0 else False
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         course_type = self.kwargs.get('course_type')
@@ -137,6 +148,7 @@ class QuizDetailView(DetailView):
         context['locked'] = self.is_locked(context['object'])
         context['ongoing'] = self.is_ongoing(context['object'])
         context['expired'] = self.is_expired(context['object'])
+        context['submitted'] = self.submitted(context['object'])
 
         return context
 
@@ -178,31 +190,57 @@ class QuizSubmissionView(FormView):
     template_name = 'quiz/upload_solution.html'
 
     def get(self, request, *args, **kwargs):
-        try:
-            quiz_id = self.kwargs.get('quiz_id')
-            quiz = Quiz.objects.get(id=quiz_id)
-        except ObjectDoesNotExist:
+        if self.kwargs.get('course_type') == 'my-courses':
             raise Http404
-        # if datetime.now().date() > quiz.deadline:
-        #     return HttpResponseRedirect(
-        #         reverse('assignment:detail', kwargs=self.kwargs)
-        #     )
-        # else:
+
         return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if self.kwargs.get('course_type') == 'my-courses':
+            raise Http404
+
+        return super().post(request, *args, **kwargs)
+
+    def is_expired(self, object):
+        current_datetime = datetime.utcnow()
+        if current_datetime.date() > object.quiz_date:
+            return True
+        print(current_datetime.time() > object.end_time)
+        print(object.end_time)
+        print(current_datetime.time())
+        if current_datetime.date() == object.quiz_date and current_datetime.time() > object.end_time:
+            return True
+        return False
+
+    def is_locked(self, object):
+        current_datetime = datetime.now()
+        if current_datetime.date() < object.quiz_date:
+            return True
+        if current_datetime.date() == object.quiz_date and current_datetime.time() < object.start_time:
+            return True
+        return False
+
+    def submitted(self, object):
+        objects = QuizSubmission.objects.filter(
+            Q(user=self.request.user)
+            &
+            Q(quiz=object)
+        )
+        return True if objects.count() > 0 else False
 
     def get_queryset(self):
         course_id = self.kwargs.get('course_id')
         quiz_id = self.kwargs.get('quiz_id')
         course_type = self.kwargs.get('course_type')
         try:
-            if course_type == 'my-courses':
-                course = self.request.user.hosted_courses.get(id=course_id)
-            elif course_type == 'enrolled-courses':
-                course = self.request.user.enrolled_courses.get(
-                    course__id=course_id
-                ).course
+            course = self.request.user.enrolled_courses.get(
+                course__id=course_id
+            ).course
             quiz = course.quizzes.get(id=quiz_id)
-            return quiz.questions.all()
+            if self.is_expired(quiz) or self.is_locked(quiz) or self.submitted(quiz):
+                raise Http404
+            else:
+                return quiz.questions.all()
         except ObjectDoesNotExist:
             raise Http404
 
@@ -225,11 +263,22 @@ class QuizSubmissionView(FormView):
         )
         return form
 
-    def form_valid(self, forms):
-        for form in forms:
-            form.instance.question = form.question
-            form.instance.user = self.request.user
-            form.save()
+    def form_valid(self, formset):
+        try:
+            submission = QuizSubmission()
+            submission.user = self.request.user
+            submission.quiz = formset[0].question.quiz
+            submission.save()
+        except IntegrityError:
+            pass
+        except IndexError:
+            pass
+
+        for form in formset:
+            if form.has_changed():
+                form.instance.question = form.question
+                form.instance.user = self.request.user
+                form.save()
 
         return HttpResponseRedirect(self.get_success_url())
 
@@ -243,3 +292,100 @@ class QuizSubmissionView(FormView):
         kwargs['course_id'] = self.kwargs.get('course_id')
         kwargs['quiz_id'] = self.kwargs.get('quiz_id')
         return kwargs
+
+
+class ViewSubmissionView(ListView):
+    template_name = 'quiz/submission.html'
+
+    def get(self, request, *args, **kwargs):
+        if self.kwargs.get('course_type') != 'my-courses':
+            raise Http404
+
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        if self.kwargs.get('course_type') != 'my-courses':
+            raise Http404
+
+        return super().post(request, *args, **kwargs)
+
+    def get_queryset(self):
+        quiz_id = self.kwargs.get('quiz_id')
+        course_id = self.kwargs.get('course_id')
+
+        try:
+            self.request.user.hosted_courses.get(id=course_id)
+        except ObjectDoesNotExist:
+            raise Http404
+
+        return QuizSubmission.objects.filter(quiz__id=quiz_id)
+
+    def get_context_data(self, **kwargs):
+        kwargs = super().get_context_data(**kwargs)
+        kwargs['course_id'] = self.kwargs.get('course_id')
+        kwargs['quiz_id'] = self.kwargs.get('quiz_id')
+        kwargs['course_type'] = self.kwargs.get('course_type')
+        return kwargs
+
+
+class SubmissionDetailView(ListView):
+    template_name = 'quiz/submission_detail.html'
+    # def get(self, request, *args, **kwargs):
+    #     try:
+    #         course_id = self.kwargs.get('course_id')
+    #         request.user.enrolled_courses.get(id=course_id)
+    #     except ObjectDoesNotExist:
+    #         raise Http404
+
+    #     super().get(request, *args, **kwargs)
+
+    # def post(self, request, *args, **kwargs):
+    #     try:
+    #         course_id = self.kwargs.get('course_id')
+    #         request.user.enrolled_courses.get(id=course_id)
+    #     except ObjectDoesNotExist:
+    #         raise Http404
+
+    #     super().post(request, *args, **kwargs)
+
+    def get_queryset(self):
+        course_id = self.kwargs.get('course_id')
+        quiz_id = self.kwargs.get('quiz_id')
+        submission_id = self.kwargs.get('submission_id')
+        course_type = self.kwargs.get('course_type')
+
+        course, quiz = None, None
+        try:
+            if course_type == 'my-courses':
+                course = self.request.user.hosted_courses.get(id=course_id)
+            elif course_type == 'enrolled-courses':
+                course = self.request.user.enrolled_courses.get(
+                    course__id=course_id).course
+            quiz = course.quizzes.get(id=quiz_id)
+        except ObjectDoesNotExist:
+            raise Http404
+
+        return Submission.objects.filter(
+            Q(user=self.request.user)
+            &
+            Q(question__quiz=quiz)
+        )
+
+    def get_options(self, object_list):
+        for object in object_list:
+            object.options = Option.objects.filter(question=object.question)
+
+    def get_submission_object(self):
+        submission_id = self.kwargs.get('submission_id')
+        return QuizSubmission.objects.get(id=submission_id)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['is_tutor'] = True if self.kwargs.get(
+            'course_type') == 'my-courses' else False
+        context['is_student'] = True if self.kwargs.get(
+            'course_type') == 'enrolled-courses' else False
+        context['course_type'] = self.kwargs.get('course_type')
+        context['submission'] = self.get_submission_object()
+        self.get_options(context['object_list'])
+        return context

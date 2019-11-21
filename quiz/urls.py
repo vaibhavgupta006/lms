@@ -4,7 +4,9 @@ from .views import (
     QuizListView,
     QuizDetailView,
     QuizUpdateView,
-    QuizSubmissionView
+    QuizSubmissionView,
+    ViewSubmissionView,
+    SubmissionDetailView
 )
 
 app_name = 'quiz'
@@ -24,9 +26,9 @@ urlpatterns = [
     path('<int:course_id>/quizzes/<int:quiz_id>/submit/',
          QuizSubmissionView.as_view(), name='submit-quiz'),
 
-    # path('<int:course_id>/assignments/<int:assignment_id>/submissions/',
-    #      SubmissionView.as_view(), name='submissions'),
+    path('<int:course_id>/quizzes/<int:quiz_id>/submissions/',
+         ViewSubmissionView.as_view(), name='submissions'),
 
-    # path('<int:course_id>/assignments/<int:assignment_id>/submissions/all-submissions-pdf',
-    #      AllSubmissionPDFView.as_view(), name='all-submissions-pdf'),
+    path('<int:course_id>/quizzes/<int:quiz_id>/submissions/<int:submission_id>/detail/',
+         SubmissionDetailView.as_view(), name='submission-detail'),
 ]

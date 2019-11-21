@@ -1,0 +1,23 @@
+// .detail-heading {
+//   font-weight: 400 !important;
+//   font-weight: 32px !important;
+// }
+
+.detail-content {
+  font-weight: 400 !important;
+  font-size: 16px !important;
+}
+
+.option {
+  padding: 10px !important;
+  border-radius: 5px !important;
+  font-weight: 400;
+  font-size: 15px !important;
+  margin: 10px 20px 10px 40px !important;
+  &.correct {
+    background-color: #9effa6 !important;
+  }
+  &.incorrect {
+    background-color: #ff9e9e;
+  }
+}

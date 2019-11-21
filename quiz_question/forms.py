@@ -86,7 +86,7 @@ class QuestionCreationFormset(forms.BaseInlineFormSet):
         result = super().save(*args, **kwargs)
         for form in self.forms:
             for nested_form in form.nested_forms:
-                if nested_form.is_valid():
+                if nested_form.is_valid() and nested_form.has_changed():
                     nested_form.save(*args, **kwargs)
 
         return result
