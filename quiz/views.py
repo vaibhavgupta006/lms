@@ -269,6 +269,7 @@ class QuizSubmissionView(FormView):
             submission.user = self.request.user
             submission.quiz = formset[0].question.quiz
             submission.save()
+            self.submission_id = submission.id
         except IntegrityError:
             pass
         except IndexError:
@@ -283,7 +284,8 @@ class QuizSubmissionView(FormView):
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse('quiz:detail', kwargs=self.kwargs)
+        self.kwargs['submission_id'] = self.submission_id
+        return reverse('quiz:submission-detail', kwargs=self.kwargs)
 
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)

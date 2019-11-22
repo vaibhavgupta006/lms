@@ -50,10 +50,10 @@
     <p class='detail-content'>{{ object.description|capfirst }}</p>
   </div>
   {% if not is_tutor %}
-    {% if expired %}
-        {% include 'ui_components/detail_btn_primary.html' with btn_text='Expired' btn_class='dead' btn_icon='send' %}
-    {% elif submitted %}
+    {% if submitted %}
         {% include 'ui_components/detail_btn_primary.html' with btn_text='Submitted' btn_class='dead' btn_icon='lock' %}
+    {% elif expired %}
+        {% include 'ui_components/detail_btn_primary.html' with btn_text='Expired' btn_class='dead' btn_icon='send' %}
     {% elif locked %}
         {% include 'ui_components/detail_btn_primary.html' with btn_text='Locked' btn_class='dead' btn_icon='lock' %}
     {% else %}
