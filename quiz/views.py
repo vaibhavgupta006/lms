@@ -67,6 +67,7 @@ class QuizListView(ListView):
         course_type = self.kwargs.get('course_type')
         context = super().get_context_data(**kwargs)
         context['is_tutor'] = True if course_type == 'my-courses' else False
+        context['is_student'] = True if course_type == 'enrolled-courses' else False
         context['course_type'] = course_type
         context['course_id'] = self.kwargs.get('course_id')
         return context
@@ -131,7 +132,7 @@ class QuizDetailView(DetailView):
             &
             Q(quiz=object)
         )
-        return True if objects.count() > 0 else False
+        return (True, objects.first()) if objects.count() > 0 else (False, None)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -148,7 +149,9 @@ class QuizDetailView(DetailView):
         context['locked'] = self.is_locked(context['object'])
         context['ongoing'] = self.is_ongoing(context['object'])
         context['expired'] = self.is_expired(context['object'])
-        context['submitted'] = self.submitted(context['object'])
+        if course_type == 'enrolled-courses':
+            context['submitted'], context['submission_object'] = self.submitted(
+                context['object'])
 
         return context
 
@@ -367,11 +370,14 @@ class SubmissionDetailView(ListView):
         except ObjectDoesNotExist:
             raise Http404
 
-        return Submission.objects.filter(
-            Q(user=self.request.user)
-            &
-            Q(question__quiz=quiz)
-        )
+        if course_type == 'enrolled-courses':
+            return Submission.objects.filter(
+                Q(user=self.request.user)
+                &
+                Q(question__quiz=quiz)
+            )
+        elif course_type == 'my-courses':
+            return Submission.objects.filter(question__quiz=quiz)
 
     def get_options(self, object_list):
         for object in object_list:

@@ -367,7 +367,7 @@ class RecentAssignmentView(ListView):
 
     def get_queryset(self):
         enrolled_courses = self.request.user.enrolled_courses.all().values('course')
-        return Subm.objects.filter(course__id__in=enrolled_courses).order_by('-date_created')
+        return Assignment.objects.filter(course__id__in=enrolled_courses).order_by('-date_created')
 
     def get_context_data(self, *args, object_list=None, **kwargs):
         context = super().get_context_data(*args, object_list=object_list, **kwargs)

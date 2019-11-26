@@ -54,7 +54,11 @@
 
 {% block detail %}
   <div class='detail primary'>
+  {% if is_student %}
     <p class='detail-heading' >Your responses :</p>
+  {% elif is_tutor %}
+    <p class='detail-heading' >Responses :</p>
+  {% endif %}
   </div>
   {% comment %} {% if not is_tutor %}
     {% if expired %}

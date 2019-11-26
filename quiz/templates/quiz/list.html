@@ -34,7 +34,11 @@
       <p class='item-heading'>{{ quiz.name|capfirst }}</p>
       <p class='description'>{{ quiz.description|capfirst }}</p>
       <div class='action'>
-        <a href="{{quiz.id}}/submit" class='btn'>Submit</a>
+        {% if is_tutor %}
+          <a href="{{quiz.id}}/submissions" class='btn'>Submissions</a>
+        {% comment %} {% elif is_student %}
+          <a href="{{quiz.id}}/submission" class='btn'>Submission</a> {% endcomment %}
+        {% endif %}
         <a href="{{quiz.id}}" class='btn'>View</a>
       </div>
     </div>
