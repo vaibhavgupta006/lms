@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'home',
     'authentication',
     'course',
     'dashboard',
@@ -64,6 +65,7 @@ PUBLIC_VIEWS = [
     'authentication.views.MyLoginView',
     'authentication.views.SignupView',
     'authentication.views.HomeView',
+    'home.views.HomeView'
 ]
 
 ROOT_URLCONF = 'backend.urls'

@@ -41,4 +41,4 @@ class MyLoginView(LoginView):
 
 
 def HomeView(request):
-    return render(request, 'authentication/home.html')
+    return HttpResponseRedirect(reverse('authentication:login'))
