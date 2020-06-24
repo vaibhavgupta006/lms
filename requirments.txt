@@ -7,3 +7,4 @@ python-docx==0.8.10
 pytz==2019.3
 reportlab==3.5.23
 sqlparse==0.3.1
+psycopg2==2.7.2

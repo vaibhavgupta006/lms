@@ -1,6 +1,6 @@
 from django.db import models
 from course.models import Course
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from authentication.models import User
 
 
@@ -18,9 +18,9 @@ class Assignment(models.Model):
     date_created = models.DateTimeField(null=False, auto_now_add=True)
 
     def get_absolute_url(self):
-        return reverse('assignment:create-question', kwargs={
+        return reverse_lazy('assignment:create-assignment', kwargs={
             "course_id": self.course.id,
-            "assignment_id": self.id,
+            # "assignment_id": self.id,
             "course_type": "my-courses"
         })
 
